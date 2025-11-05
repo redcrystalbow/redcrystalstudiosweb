@@ -137,7 +137,23 @@ document.getElementById('accessSubmit').addEventListener('click',()=>{
 </script>
 
 <!-- Insert Firebase config here -->
-<script type="module">
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCK6PEV_f87dGuU8k04rSmL7wRVxzIynkQ",
+    authDomain: "alvion-chronicles.firebaseapp.com",
+    projectId: "alvion-chronicles",
+    storageBucket: "alvion-chronicles.appspot.com",
+    messagingSenderId: "943295347187",
+    appId: "1:943295347187:web:6e09f5a56576326df07a86",
+    measurementId: "G-E029MF3R9V"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+</script>
+
 // Initialize Firebase here using your Firebase config
 </script>
 </body>
