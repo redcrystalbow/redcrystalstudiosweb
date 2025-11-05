@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>RedCrystal Studios | Admin Panel</title>
+
 <style>
 :root {
   --bg:#0b0810;
@@ -14,340 +15,186 @@
   --glass-border: rgba(255,255,255,0.04);
 }
 *{box-sizing:border-box;}
-html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:var(--bg);color:#fff}
-.sky{position:fixed;inset:0;z-index:-3;overflow:hidden;background:radial-gradient(ellipse at 10% 10%,rgba(255,45,85,0.06),transparent 6%),radial-gradient(ellipse at 90% 80%,rgba(124,92,255,0.04),transparent 10%),linear-gradient(180deg,rgba(8,6,14,1) 0%, rgba(6,4,10,1)100%);}
-.stars{position:absolute;inset:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><g fill="white" opacity="0.03"><circle cx="20" cy="50" r="1"/><circle cx="120" cy="70" r="1"/><circle cx="300" cy="30" r="1"/><circle cx="70" cy="320" r="1"/><circle cx="10" cy="200" r="1"/></g></svg>') repeat;mix-blend-mode:screen}
-.glow-orb{position:absolute;width:600px;height:600px;left:10%;top:-10%;background:radial-gradient(circle at 30% 30%,rgba(255,45,85,0.12),transparent 20%),radial-gradient(circle at 70% 70%,rgba(124,92,255,0.08),transparent 30%);filter:blur(40px);z-index:-2;transform:rotate(10deg);}
-
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+  background:var(--bg);color:#fff;
+  -webkit-font-smoothing:antialiased;
+  animation:fadeIn .8s ease;
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+a{color:inherit;text-decoration:none;}
+.sky{position:fixed;inset:0;z-index:-3;overflow:hidden;
+  background:radial-gradient(ellipse at 10% 10%,rgba(255,45,85,0.06),transparent 6%),
+             radial-gradient(ellipse at 90% 80%,rgba(124,92,255,0.04),transparent 10%),
+             linear-gradient(180deg,rgba(8,6,14,1)0%,rgba(6,4,10,1)100%);
+}
+.stars{position:absolute;inset:0;
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><g fill="white" opacity="0.03"><circle cx="20" cy="50" r="1"/><circle cx="120" cy="70" r="1"/><circle cx="300" cy="30" r="1"/><circle cx="70" cy="320" r="1"/><circle cx="10" cy="200" r="1"/></g></svg>') repeat;
+  mix-blend-mode:screen;
+}
+.glow-orb{position:absolute;width:600px;height:600px;left:10%;top:-10%;
+  background:radial-gradient(circle at 30% 30%,rgba(255,45,85,0.12),transparent 20%),
+             radial-gradient(circle at 70% 70%,rgba(124,92,255,0.08),transparent 30%);
+  filter:blur(40px);z-index:-2;transform:rotate(10deg);
+}
 header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;}
 .brand{display:flex;gap:14px;align-items:center;}
 .brand h1{font-size:18px;margin:0;}
 .brand p{margin:0;font-size:12px;color:var(--muted);}
 nav{display:flex;gap:14px;align-items:center;}
-.btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);cursor:pointer;font-weight:600;}
-.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0;}
-.container{max-width:1100px;margin:40px auto;padding:20px;}
-
-.panel{background:rgba(255,255,255,0.03);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 8px 30px rgba(2,2,6,0.6)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-.card{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);min-height:120px}
-.list{max-height:440px;overflow:auto;padding:8px}
-.user-item{padding:10px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;gap:8px;align-items:center}
-.small{font-size:13px;color:var(--muted)}
-.action-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 8px;border-radius:8px;color:#fff;cursor:pointer}
-.action-btn.destructive{border-color:rgba(255,0,50,0.3);color:#ffb3b8}
-.controls{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-
-footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;justify-content:center;align-items:center;border-top:1px solid var(--glass-border);}
-footer a.rc-link{color:inherit;text-decoration:underline;margin-left:12px;transition:color .3s,text-shadow .3s}
-footer a.rc-link:hover{color:#ff0032;text-shadow:0 0 6px #ff0032}
-
-/* modal (admin pass) */
-#rc-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:9999}
-#rc-modal{width:420px;max-width:94%;background:linear-gradient(180deg,#0b0b0b,#070607);border-radius:12px;padding:18px;border:1px solid rgba(255,0,50,0.08);box-shadow:0 10px 40px rgba(0,0,0,0.7);transform:scale(.96);opacity:0;transition:opacity .25s ease,transform .25s ease}
-#rc-modal.rc-show{opacity:1;transform:scale(1)}
-#rc-modal h3{margin:0 0 8px;font-size:18px}
-#rc-modal .rc-input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;margin-bottom:12px;box-sizing:border-box}
-#rc-modal .rc-actions{display:flex;gap:8px;justify-content:flex-end;align-items:center}
-#rc-modal .rc-btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700;background:linear-gradient(90deg,#ff0032,#7c5cff);color:#fff}
-#rc-modal .rc-btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06)}
-#rc-modal .rc-denied{color:#ff5b6b;font-weight:700;margin-right:auto;opacity:0;transition:opacity .18s ease}
-@keyframes rc-shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
-#rc-modal.rc-shake{animation:rc-shake .45s cubic-bezier(.36,.07,.19,.97)}
+.btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);
+  cursor:pointer;font-weight:600;
+}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0;
+}
+.main{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px;min-height:60vh;}
+.panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;
+  box-shadow:0 0 20px rgba(255,0,50,0.3);padding:40px 50px;max-width:900px;
+}
+.panel h2{color:#ff0032;margin-bottom:10px;}
+.panel p{color:#ccc;margin-bottom:30px;}
+.user-item,.chat-item{
+  background:rgba(255,255,255,0.03);
+  padding:10px 12px;
+  border-radius:8px;
+  margin:6px 0;
+  text-align:left;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.user-item strong,.chat-item strong{color:#fff;}
+.chat-item small{color:var(--muted);}
+.delete-btn{
+  background:none;
+  border:1px solid rgba(255,0,50,0.4);
+  color:#ff0032;
+  border-radius:6px;
+  padding:4px 8px;
+  cursor:pointer;
+  font-size:12px;
+  transition:all .2s;
+}
+.delete-btn:hover{
+  background:rgba(255,0,50,0.15);
+}
+footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;
+  justify-content:center;align-items:center;border-top:1px solid var(--glass-border);
+}
 </style>
 </head>
+
 <body>
-  <div class="sky"><div class="stars"></div><div class="glow-orb"></div></div>
+<div class="sky"><div class="stars"></div><div class="glow-orb"></div></div>
 
-  <header>
-    <div class="brand">
-      <img src="img/RCS LOG.png" alt="RedCrystal_Studios Company Logo" width="160" height="auto">
-      <div>
-        <h1>RedCrystal_Studios</h1>
-        <p>Indie studio — games & websites</p>
-      </div>
-    </div>
-    <nav>
-      <a class="btn" href="workg.html">Projects</a>
-      <a class="btn" href="contactg.html">Contact/Socials</a>
-    </nav>
-  </header>
-
-  <main class="container">
-    <div class="panel">
-      <h2 style="color:#ff0032;margin:0 0 8px">Admin Dashboard</h2>
-      <p class="small">Live users, global messages, and private chat threads. Delete actions require the admin access code.</p>
-
-      <div class="controls" style="margin-top:12px">
-        <button id="refreshBtn" class="action-btn">Refresh</button>
-        <button id="clearGlobalBtn" class="action-btn destructive">Clear Global Chat</button>
-        <span style="margin-left:auto" class="small">Owner mode</span>
-      </div>
-
-      <div class="grid" style="margin-top:12px">
-        <div class="card">
-          <h3 style="margin:0 0 8px">Users</h3>
-          <div id="usersList" class="list"><p class="small" style="text-align:center">Loading...</p></div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin:0 0 8px">Global Messages</h3>
-          <div id="messagesList" class="list"><p class="small" style="text-align:center">Loading...</p></div>
-        </div>
-
-        <div class="card" style="grid-column:1 / -1">
-          <h3 style="margin:0 0 8px">Private Chat Threads</h3>
-          <div id="privateList" class="list"><p class="small" style="text-align:center">Loading...</p></div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <footer>
+<header>
+  <div class="brand">
+    <img src="img/RCS LOG.png" alt="RedCrystal Studios Logo" width="160">
     <div>
-      <a href="#" class="rc-link" data-which="user">User Panel</a> |
-      <a href="#" class="rc-link" data-which="admin">Admin Panel</a>
-    </div>
-    <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
-  </footer>
-
-  <!-- Admin access modal (protected destructive actions) -->
-  <div id="rc-modal-overlay" aria-hidden="true">
-    <div id="rc-modal" role="dialog" aria-modal="true" aria-labelledby="rc-modal-title">
-      <h3 id="rc-modal-title">🔒 Secure Access Portal</h3>
-      <p style="color:var(--muted);margin:6px 0 12px">Enter Company Access Code</p>
-      <input id="rc-code-input" class="rc-input" type="password" autocomplete="off" placeholder="Enter code…" />
-      <div class="rc-actions">
-        <div class="rc-denied" id="rc-denied">Access Denied</div>
-        <button class="rc-btn secondary" id="rc-cancel">Cancel</button>
-        <button class="rc-btn" id="rc-submit">Submit</button>
-      </div>
+      <h1>RedCrystal_Studios</h1>
+      <p>Admin Control Panel</p>
     </div>
   </div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="user.html">User Panel</a>
+  </nav>
+</header>
 
-  <!-- Firebase + logic -->
+<section class="main">
+  <div class="panel">
+    <h2>👥 Registered Users</h2>
+    <div id="userList"><em>Loading users...</em></div>
+
+    <hr style="margin:30px 0;border:0;border-top:1px solid rgba(255,255,255,0.1);">
+
+    <h2>💬 Live Chat Messages</h2>
+    <div id="chatList"><em>Loading messages...</em></div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
+</footer>
+
+<!-- ✅ Firebase + logic -->
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
+import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCK6PEV_f87dGuU8k04rSmL7wRVxzIynkQ",
-    authDomain: "alvion-chronicles.firebaseapp.com",
-    projectId: "alvion-chronicles",
-    storageBucket: "alvion-chronicles.firebasestorage.app",
-    messagingSenderId: "943295347187",
-    appId: "1:943295347187:web:6e09f5a56576326df07a86",
-    measurementId: "G-E092NF3R9V"
-  };
+// 🔥 Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyCK6PEV_f87dGuU8k04rSmL7wRVxzIynkQ",
+  authDomain: "alvion-chronicles.firebaseapp.com",
+  projectId: "alvion-chronicles",
+  storageBucket: "alvion-chronicles.firebasestorage.app",
+  messagingSenderId: "943295347187",
+  appId: "1:943295347187:web:6e09f5a56576326df07a86",
+  measurementId: "G-E092NF3R9V"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+// ✅ Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
+// 👥 Load Users
+const userList = document.getElementById("userList");
+const usersRef = ref(db, "users");
 
-    // Elements
-    const usersList = document.getElementById('usersList');
-    const messagesList = document.getElementById('messagesList');
-    const privateList = document.getElementById('privateList');
-    const refreshBtn = document.getElementById('refreshBtn');
-    const clearGlobalBtn = document.getElementById('clearGlobalBtn');
+onValue(usersRef, (snapshot) => {
+  const data = snapshot.val();
+  if (!data) {
+    userList.innerHTML = "<p style='color:#999;'>No users found.</p>";
+    return;
+  }
+  userList.innerHTML = Object.entries(data)
+    .map(([key, user]) => `
+      <div class="user-item">
+        <div>
+          <strong>${user.displayName || "Unnamed User"}</strong><br>
+          <small>${user.email || "No email"}</small>
+        </div>
+      </div>
+    `)
+    .join("");
+});
 
-    // Admin modal controls
-    const overlay = document.getElementById('rc-modal-overlay');
-    const modal = document.getElementById('rc-modal');
-    const input = document.getElementById('rc-code-input');
-    const submitBtn = document.getElementById('rc-submit');
-    const cancelBtn = document.getElementById('rc-cancel');
-    const denied = document.getElementById('rc-denied');
+// 💬 Live Chat Messages
+const chatList = document.getElementById("chatList");
+const chatRef = ref(db, "messages");
 
-    let pendingAction = null; // function to call after successful admin unlock
-    let isAdminUnlocked = false; // session flag
+onValue(chatRef, (snapshot) => {
+  const data = snapshot.val();
+  if (!data) {
+    chatList.innerHTML = "<p style='color:#999;'>No messages yet.</p>";
+    return;
+  }
+  chatList.innerHTML = Object.entries(data)
+    .map(([id, msg]) => `
+      <div class="chat-item">
+        <div>
+          <strong>${msg.displayName || "User"}</strong><br>
+          <small>${msg.text || ""}</small>
+        </div>
+        <button class="delete-btn" data-id="${id}">Delete</button>
+      </div>
+    `)
+    .join("");
 
-    function openAdminModal(actionFn){
-      pendingAction = actionFn;
-      input.value = '';
-      denied.style.opacity = 0;
-      overlay.style.display = 'flex';
-      requestAnimationFrame(()=> modal.classList.add('rc-show'));
-      input.focus();
-    }
-    function closeAdminModal(){
-      modal.classList.remove('rc-show');
-      modal.classList.remove('rc-shake');
-      setTimeout(()=> overlay.style.display='none', 260);
-    }
-    overlay.addEventListener('click', (e)=> { if(e.target===overlay) closeAdminModal(); });
-    cancelBtn.addEventListener('click', closeAdminModal);
-
-    function deny(){
-      denied.style.opacity = 1;
-      modal.classList.remove('rc-show');
-      setTimeout(()=> { modal.classList.add('rc-shake'); modal.classList.add('rc-show'); }, 10);
-      setTimeout(()=> modal.classList.remove('rc-shake'), 600);
-    }
-    submitBtn.addEventListener('click', ()=> {
-      const val = input.value.trim();
-      if(val === 'RCS2025DEVACCESS'){ // admin pass
-        isAdminUnlocked = true;
-        closeAdminModal();
-        if(typeof pendingAction === 'function') pendingAction();
-        pendingAction = null;
-      } else {
-        deny();
-      }
+  // Attach delete listeners
+  document.querySelectorAll(".delete-btn").forEach(btn=>{
+    btn.addEventListener("click", async ()=>{
+      const id = btn.dataset.id;
+      await remove(ref(db, "messages/" + id));
     });
+  });
+});
+</script>
 
-    // ---------- Utility to guard destructive actions ----------
-    function requireAdminThen(runFn){
-      if(isAdminUnlocked){ runFn(); return; }
-      openAdminModal(runFn);
-    }
-
-    // ---------- Listeners for DB nodes ----------
-    const usersRef = ref(db, 'users');
-    onValue(usersRef, snap => {
-      const data = snap.val() || {};
-      const entries = Object.entries(data);
-      if(entries.length === 0){
-        usersList.innerHTML = "<p class='small' style='text-align:center;color:#999'>No users yet.</p>";
-        return;
-      }
-      usersList.innerHTML = entries.map(([uid, u]) => {
-        const name = (u.displayName || u.username || 'Unnamed');
-        const email = u.email || '—';
-        return `<div class="user-item">
-                  <div>
-                    <div style="font-weight:700">${escapeHtml(name)}</div>
-                    <div class="small">${escapeHtml(email)}</div>
-                  </div>
-                  <div>
-                    <button class="action-btn" onclick="viewUser('${uid}')">View</button>
-                    <button class="action-btn destructive" onclick="confirmDeleteUser('${uid}')">Delete</button>
-                  </div>
-                </div>`;
-      }).join('');
-    });
-
-    const messagesRef = ref(db, 'messages');
-    onValue(messagesRef, snap => {
-      const data = snap.val() || {};
-      const arr = Object.entries(data).sort((a,b)=> (a[1].ts||0) - (b[1].ts||0));
-      if(arr.length === 0){
-        messagesList.innerHTML = "<p class='small' style='text-align:center;color:#999'>No global messages.</p>";
-        return;
-      }
-      messagesList.innerHTML = arr.map(([id,m]) => {
-        const who = escapeHtml(m.senderName || m.email || 'Anon');
-        const text = escapeHtml(m.text || '');
-        const time = new Date(m.ts||m.time||0).toLocaleString();
-        return `<div class="user-item">
-                  <div>
-                    <div style="font-weight:700">${who} <span class="small" style="margin-left:8px">${time}</span></div>
-                    <div class="small" style="color:#ccc">${text}</div>
-                  </div>
-                  <div>
-                    <button class="action-btn destructive" onclick="confirmDeleteMessage('${id}')">Delete</button>
-                  </div>
-                </div>`;
-      }).join('');
-    });
-
-    const privateRef = ref(db, 'privateChats');
-    onValue(privateRef, snap => {
-      const data = snap.val() || {};
-      const keys = Object.keys(data);
-      if(keys.length === 0){
-        privateList.innerHTML = "<p class='small' style='text-align:center;color:#999'>No private chats.</p>";
-        return;
-      }
-      privateList.innerHTML = keys.map(k => {
-        return `<div class="user-item">
-                  <div style="word-break:break-all"><strong>${escapeHtml(k)}</strong></div>
-                  <div>
-                    <button class="action-btn" onclick="viewPrivate('${k}')">Open</button>
-                    <button class="action-btn destructive" onclick="confirmDeletePrivate('${k}')">Delete Thread</button>
-                  </div>
-                </div>`;
-      }).join('');
-    });
-
-    // ---------- action wiring ----------
-    refreshBtn.addEventListener('click', ()=> {
-      // manual refresh simply re-reads data — onValue is already live so nothing special needed
-      alert('Live lists are automatically updating. Use the delete buttons to manage data.');
-    });
-
-    clearGlobalBtn.addEventListener('click', ()=> {
-      requireAdminThen(()=>{
-        if(!confirm('Clear all global messages? This cannot be undone.')) return;
-        remove(ref(db, 'messages')).then(()=> alert('Global messages cleared.'));
-      });
-    });
-
-    // Expose some functions to window so onclick strings above can call them
-    window.confirmDeleteUser = function(uid){
-      requireAdminThen(()=> {
-        if(!confirm('Delete user '+uid+' and their data?')) return;
-        // remove user profile
-        remove(ref(db, `users/${uid}`)).then(()=> {
-          // optionally also remove user's private chats/messages — careful
-          // remove(ref(db, `privateChats/${uid}`)); // example if you keep that structure
-          alert('User removed.');
-        }).catch(e=> alert('Error: '+e.message));
-      });
-    };
-
-    window.confirmDeleteMessage = function(messageId){
-      requireAdminThen(()=> {
-        if(!confirm('Delete message '+messageId+'?')) return;
-        remove(ref(db, `messages/${messageId}`)).then(()=> alert('Message deleted.'));
-      });
-    };
-
-    window.confirmDeletePrivate = function(threadKey){
-      requireAdminThen(()=> {
-        if(!confirm('Delete private chat thread '+threadKey+'?')) return;
-        remove(ref(db, `privateChats/${threadKey}`)).then(()=> alert('Private thread deleted.'));
-      });
-    };
-
-    window.viewUser = function(uid){
-      // placeholder: show a popup with user info
-      const el = document.getElementById('usersList');
-      alert('Open user details for UID: ' + uid);
-    };
-    window.viewPrivate = function(key){
-      // placeholder: open in new tab to a simple viewer? For now just alert.
-      alert('Open private chat viewer for: ' + key);
-    };
-
-    // small helper
-    function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-    // Footer modal links behaviour (open access modal)
-    document.querySelectorAll('a.rc-link').forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        const which = a.dataset.which;
-        // if user clicks the admin link on admin page, we can open modal too
-        openAdminModal(null);
-      });
-    });
-
-    // allow Enter key to submit modal
-    input.addEventListener('keydown', (e)=> { if(e.key === 'Enter') submitBtn.click(); });
-
-    // End of module
-  </script>
-
-  <script>
-    /* Optional: small compatibility fallback if the host blocks module imports.
-       If your browser complains, use a modern browser or serve over https. */
-  </script>
 </body>
 </html>
