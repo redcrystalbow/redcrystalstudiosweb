@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RedCrystal Studios | Admin Panel</title>
+<!-- reuse same CSS as user.html for full match -->
+</head>
+
+<body>
+<div class="sky"><div class="stars"></div><div class="glow-orb"></div></div>
+
+<header>
+  <div class="brand">
+    <img src="img/RCS LOG.png" alt="RedCrystal Studios Logo" width="160">
+    <div>
+      <h1>RedCrystal_Studios</h1>
+      <p>Indie studio — games & websites</p>
+    </div>
+  </div>
+  <nav>
+    <a class="btn" href="workg.html">Projects</a>
+    <a class="btn" href="contactg.html">Contact/Socials</a>
+  </nav>
+</header>
+
+<section class="main">
+  <div class="panel" style="box-shadow:0 0 30px rgba(255,0,50,0.6);">
+    <h2>Welcome to the RedCrystal Studios Admin Panel</h2>
+    <p>User management and messaging administration (demo only).</p>
+
+    <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+      <thead>
+        <tr style="color:#ff0032;text-align:left;">
+          <th style="padding:8px;border-bottom:1px solid rgba(255,255,255,0.1);">Username</th>
+          <th style="padding:8px;border-bottom:1px solid rgba(255,255,255,0.1);">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:8px;">User1</td><td style="padding:8px;">user1@mail.com</td></tr>
+        <tr><td style="padding:8px;">User2</td><td style="padding:8px;">user2@mail.com</td></tr>
+        <tr><td style="padding:8px;">User3</td><td style="padding:8px;">user3@mail.com</td></tr>
+      </tbody>
+    </table>
+
+    <a href="index.html" class="btn primary" style="margin-top:30px;">⬅ Back to Home</a>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <a href="#" class="rc-link" data-which="user">User Panel</a> |
+    <a href="#" class="rc-link" data-which="admin">Admin Panel</a>
+  </div>
+  <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
+</footer>
+
+<div id="accessModal" class="modal-overlay">
+  <div class="modal">
+    <h2>🔒 Secure Access Portal</h2>
+    <p>Enter access code:</p>
+    <input type="password" id="accessInput" placeholder="Enter code..." />
+    <button id="accessSubmit">Access</button>
+    <p id="accessMsg" class="message"></p>
+  </div>
+</div>
+
+<script>
+// same JS logic as user.html
+</script>
+
+<!-- Insert Firebase config here -->
+<script type="module">
+// Initialize Firebase here using your Firebase config
+</script>
+</body>
+</html>
