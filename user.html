@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RedCrystal Studios | User Panel</title>
+
+<style>
+:root {
+  --bg:#0b0810;
+  --glass: rgba(255,255,255,0.06);
+  --accent:#ff2d55;
+  --accent-2:#7c5cff;
+  --muted:#a7a0b2;
+  --glass-border: rgba(255,255,255,0.04);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+  background:var(--bg);color:#fff;
+  -webkit-font-smoothing:antialiased;
+  animation:fadeIn .8s ease;
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+a{color:inherit;text-decoration:none;}
+.sky{position:fixed;inset:0;z-index:-3;overflow:hidden;
+  background:radial-gradient(ellipse at 10% 10%,rgba(255,45,85,0.06),transparent 6%),
+             radial-gradient(ellipse at 90% 80%,rgba(124,92,255,0.04),transparent 10%),
+             linear-gradient(180deg,rgba(8,6,14,1)0%,rgba(6,4,10,1)100%);
+}
+.stars{position:absolute;inset:0;
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><g fill="white" opacity="0.03"><circle cx="20" cy="50" r="1"/><circle cx="120" cy="70" r="1"/><circle cx="300" cy="30" r="1"/><circle cx="70" cy="320" r="1"/><circle cx="10" cy="200" r="1"/></g></svg>') repeat;
+  mix-blend-mode:screen;
+}
+.glow-orb{position:absolute;width:600px;height:600px;left:10%;top:-10%;
+  background:radial-gradient(circle at 30% 30%,rgba(255,45,85,0.12),transparent 20%),
+             radial-gradient(circle at 70% 70%,rgba(124,92,255,0.08),transparent 30%);
+  filter:blur(40px);z-index:-2;transform:rotate(10deg);
+}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;}
+.brand{display:flex;gap:14px;align-items:center;}
+.brand h1{font-size:18px;margin:0;}
+.brand p{margin:0;font-size:12px;color:var(--muted);}
+nav{display:flex;gap:14px;align-items:center;}
+.btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);
+  cursor:pointer;font-weight:600;
+}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0;
+}
+.main{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px;min-height:60vh;}
+.panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;
+  box-shadow:0 0 20px rgba(255,0,50,0.3);padding:40px 50px;max-width:600px;
+}
+.panel h2{color:#ff0032;margin-bottom:10px;}
+.panel p{color:#ccc;margin-bottom:30px;}
+footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;
+  justify-content:center;align-items:center;border-top:1px solid var(--glass-border);
+}
+footer a.rc-link{color:inherit;text-decoration:underline;margin-left:12px;
+  transition:color .3s,text-shadow .3s;}
+footer a.rc-link:hover{color:#ff0032;text-shadow:0 0 6px #ff0032;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:999;}
+.modal{background:rgba(30,30,30,0.95);border:2px solid rgba(255,0,50,0.4);
+  border-radius:15px;padding:30px 40px;text-align:center;box-shadow:0 0 20px rgba(255,0,50,0.5);
+  transform:scale(0.9);opacity:0;animation:scaleIn .3s forwards;
+}
+@keyframes scaleIn{to{transform:scale(1);opacity:1;}}
+input{padding:10px;width:80%;margin-top:10px;border:none;border-radius:8px;text-align:center;}
+button{margin-top:15px;background:linear-gradient(90deg,#ff0032,#ff3366);
+  border:none;color:white;font-weight:bold;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all .3s;}
+button:hover{box-shadow:0 0 15px #ff0032;transform:scale(1.05);}
+.message{color:#ff0032;margin-top:10px;font-weight:bold;min-height:1em;}
+</style>
+</head>
+
+<body>
+<div class="sky"><div class="stars"></div><div class="glow-orb"></div></div>
+
+<header>
+  <div class="brand">
+    <img src="img/RCS LOG.png" alt="RedCrystal Studios Logo" width="160">
+    <div>
+      <h1>RedCrystal_Studios</h1>
+      <p>Indie studio — games & websites</p>
+    </div>
+  </div>
+  <nav>
+    <a class="btn" href="workg.html">Projects</a>
+    <a class="btn" href="contactg.html">Contact/Socials</a>
+  </nav>
+</header>
+
+<section class="main">
+  <div class="panel">
+    <h2>Welcome to the RedCrystal Studios User Panel</h2>
+    <p>Community and messaging platform area (coming soon).</p>
+    <a href="index.html" class="btn primary">⬅ Back to Home</a>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <a href="#" class="rc-link" data-which="user">User Panel</a> |
+    <a href="#" class="rc-link" data-which="admin">Admin Panel</a>
+  </div>
+  <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
+</footer>
+
+<div id="accessModal" class="modal-overlay">
+  <div class="modal">
+    <h2>🔒 Secure Access Portal</h2>
+    <p>Enter access code:</p>
+    <input type="password" id="accessInput" placeholder="Enter code..." />
+    <button id="accessSubmit">Access</button>
+    <p id="accessMsg" class="message"></p>
+  </div>
+</div>
+
+<script>
+const modal=document.getElementById('accessModal');
+const input=document.getElementById('accessInput');
+const msg=document.getElementById('accessMsg');
+document.querySelectorAll('.rc-link').forEach(l=>{
+  l.addEventListener('click',e=>{
+    e.preventDefault();modal.style.display='flex';
+    modal.dataset.which=l.dataset.which;input.value='';msg.textContent='';
+  });
+});
+modal.addEventListener('click',e=>{if(e.target===modal)modal.style.display='none';});
+document.getElementById('accessSubmit').addEventListener('click',()=>{
+  const code=input.value.trim();
+  if(code==='AC25TX'&&modal.dataset.which==='user'){msg.style.color='#0f0';msg.textContent='Access granted!';setTimeout(()=>{window.location.href='user.html';},800);}
+  else if(code==='RCS2025DEVACCESS'&&modal.dataset.which==='admin'){msg.style.color='#0f0';msg.textContent='Admin access granted!';setTimeout(()=>{window.location.href='admin.html';},800);}
+  else{msg.style.color='#ff0032';msg.textContent='Access Denied';}
+});
+</script>
+
+<!-- Insert Firebase config here -->
+<script type="module">
+// Initialize Firebase here using your Firebase config
+</script>
+</body>
+</html>
