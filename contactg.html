@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - RedCrystal_Studios</title>
+  <style>
+/* ===== Base Styles ===== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle, #0a0a0a, #1a1a1a);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ===== Header ===== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 15px 50px;
+  box-shadow: 0 0 20px rgba(255, 0, 50, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header img {
+  height: 60px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav a:hover,
+nav a.active {
+  color: #ff0032;
+}
+
+/* ===== Contact Section ===== */
+.contact-section {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.contact-section h1 {
+  font-size: 2.5em;
+  color: #ff0032;
+  text-shadow: 0 0 15px #ff0032;
+  margin-bottom: 10px;
+}
+
+.contact-section .intro {
+  color: #ccc;
+  font-size: 1.1em;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+/* ===== Contact Cards ===== */
+.contact-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 0, 50, 0.3);
+  padding: 25px 35px;
+  width: 260px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(255, 0, 50, 0.7);
+}
+
+.card h2 {
+  color: #ff0032;
+  margin-bottom: 10px;
+}
+
+.card a,
+.card p {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1em;
+  word-break: break-word;
+}
+
+.card a:hover {
+  color: #ff3366;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 0, 50, 0.1);
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+</style>
+</head>
+<body>
+  <header>
+    <img src="../img/RCS LOG.png" alt="RedCrystal_Studios Company Logo" />
+    <nav>
+      <a href="../HTML/index.html">Home</a>
+      <a href="../HTML/work.html">Projects</a>
+      <a class="active" href="contact.html">Contact/Socials</a>
+
+    </nav>
+  </header>
+
+  <main>
+    <section class="contact-section">
+      <h1>Contact RedCrystal_Studios</h1>
+      <p class="intro">
+        We'd love to hear from you! Whether it's collaboration, feedback, or questions about our games or media projects — reach out below.
+      </p>
+
+      <div class="contact-cards">
+        <div class="card">
+          <h2>📧 Email</h2>
+          <a href="mailto:RedCrystalBow1@gmail.com">RedCrystalBow1@gmail.com</a>
+        </div>
+
+        <div class="card">
+          <h2>💬 Discord</h2>
+          <p>RedCrystalBow</p>
+        </div>
+
+        <div class="card">
+          <h2>📷 Instagram</h2>
+          <a href="https://www.instagram.com/redcrystalbow1" target="_blank">@RedCrystalBow1</a>
+        </div>
+
+        <div class="card">
+          <h2>🌐 Bluesky</h2>
+          <a href="https://bsky.app/profile/redcrystalbow1.bsky.social" target="_blank">
+            redcrystalbow1.bsky.social
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 RedCrystal_Studios. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
