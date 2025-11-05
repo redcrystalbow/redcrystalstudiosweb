@@ -94,10 +94,23 @@ button:hover{box-shadow:0 0 15px #ff0032;transform:scale(1.05);}
 <section class="main">
   <div class="panel">
     <h2>Welcome to the RedCrystal Studios User Panel</h2>
-    <p>Community and messaging platform area (coming soon).</p>
-    <a href="index.html" class="btn primary">⬅ Back to Home</a>
+    <p>Community messaging platform (live demo)</p>
+
+    <div id="messageArea"
+         style="max-height:300px;overflow-y:auto;
+                background:rgba(255,255,255,0.05);
+                border-radius:8px;padding:10px;margin-bottom:15px;">
+      <p style="color:#aaa;text-align:center;">No messages yet…</p>
+    </div>
+
+    <input id="username" placeholder="Enter username" style="width:80%;margin-bottom:8px;"><br>
+    <input id="message" placeholder="Type a message" style="width:80%;"><br>
+    <button id="sendBtn" class="btn primary" style="margin-top:10px;">Send</button>
+
+    <a href="index.html" class="btn primary" style="margin-top:25px;">⬅ Back to Home</a>
   </div>
 </section>
+
 
 <footer>
   <div>
