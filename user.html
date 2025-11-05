@@ -22,6 +22,7 @@ body{
   animation:fadeIn .8s ease;
 }
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
 .sky{position:fixed;inset:0;z-index:-3;overflow:hidden;
   background:radial-gradient(ellipse at 10% 10%,rgba(255,45,85,0.06),transparent 6%),
              radial-gradient(ellipse at 90% 80%,rgba(124,92,255,0.04),transparent 10%),
@@ -32,21 +33,40 @@ body{
              radial-gradient(circle at 70% 70%,rgba(124,92,255,0.08),transparent 30%);
   filter:blur(40px);z-index:-2;transform:rotate(10deg);
 }
-header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;}
+
+header{
+  display:flex;align-items:center;justify-content:space-between;padding:20px 32px;position:relative;z-index:5;
+}
 .brand{display:flex;gap:14px;align-items:center;}
 .brand h1{font-size:18px;margin:0;}
 .brand p{margin:0;font-size:12px;color:var(--muted);}
-.btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);
-  cursor:pointer;font-weight:600;
+nav{display:flex;gap:14px;align-items:center;}
+
+.btn{
+  padding:10px 16px;border-radius:10px;background:transparent;
+  border:1px solid var(--glass-border);cursor:pointer;font-weight:600;
+  color:white;transition:all 0.3s ease;
 }
-.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));
+.btn:hover{background:rgba(255,255,255,0.05);}
+.btn.primary{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
   box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0;
 }
-.panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;
-  box-shadow:0 0 20px rgba(255,0,50,0.3);padding:40px 50px;max-width:700px;margin:40px auto;text-align:center;
+.btn.primary:hover{transform:scale(1.05);box-shadow:0 0 15px var(--accent);}
+
+.panel{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;box-shadow:0 0 20px rgba(255,0,50,0.3);
+  padding:40px 50px;max-width:700px;margin:60px auto;text-align:center;
 }
-input,textarea{padding:10px;border:none;border-radius:8px;margin:6px 0;width:100%;background:rgba(255,255,255,0.1);color:#fff;}
-.chat-box{max-height:400px;overflow-y:auto;text-align:left;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;}
+input,textarea{
+  padding:10px;border:none;border-radius:8px;margin:6px 0;width:100%;
+  background:rgba(255,255,255,0.1);color:#fff;
+}
+.chat-box{
+  max-height:400px;overflow-y:auto;text-align:left;padding:10px;
+  background:rgba(255,255,255,0.03);border-radius:8px;margin-top:10px;
+}
 .message{margin:8px 0;padding:8px;border-radius:8px;background:rgba(255,255,255,0.05);}
 .message strong{color:#ff2d55;}
 footer{padding:22px 8vw;color:var(--muted);font-size:14px;text-align:center;border-top:1px solid var(--glass-border);}
@@ -61,18 +81,24 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;text-align:center;bord
     <img src="img/RCS LOG.png" alt="RedCrystal Studios Logo" width="160">
     <div>
       <h1>RedCrystal_Studios</h1>
-      <p>Community Chat</p>
+      <p>Indie studio — games & websites</p>
     </div>
   </div>
-  <a href="index.html" class="btn">Back to Home</a>
+  <nav>
+    <a href="workg.html" class="btn">Projects</a>
+    <a href="contactg.html" class="btn">Contact/Socials</a>
+    <a href="index.html" class="btn primary">Back Home</a>
+  </nav>
 </header>
 
 <section class="panel" id="authSection">
   <h2>Login or Sign Up</h2>
-  <input type="email" id="email" placeholder="Email" />
+  <input type="email" id="emailInput" placeholder="Email" />
   <input type="password" id="password" placeholder="Password" />
-  <button id="loginBtn" class="btn primary">Login</button>
-  <button id="signupBtn" class="btn">Sign Up</button>
+  <div style="margin-top:12px;">
+    <button id="loginBtn" class="btn primary">Login</button>
+    <button id="signupBtn" class="btn">Sign Up</button>
+  </div>
   <p id="authMsg"></p>
 </section>
 
@@ -91,11 +117,11 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;text-align:center;bord
   <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
 </footer>
 
-<!-- Firebase Logic -->
+<!-- Firebase + Logic -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 import { getDatabase, ref, push, set, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCK6PEV_f87dGuU8k04rSmL7wRVxzIynkQ",
@@ -125,34 +151,35 @@ document.getElementById('loginBtn').onclick = async ()=>{
     await signInWithEmailAndPassword(auth, email, pass);
     loadChat();
   } catch(e) {
-    authMsg.textContent = e.message;
+    authMsg.textContent = "⚠️ " + e.message;
   }
 };
+
 document.getElementById('signupBtn').onclick = async ()=>{
   const email = emailInput.value.trim();
   const pass = password.value.trim();
   try {
-    await createUserWithEmailAndPassword(auth, email, pass);
-    set(ref(db, 'users/' + auth.currentUser.uid), {
+    const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+    await set(ref(db, 'users/' + userCred.user.uid), {
       email: email,
       displayName: "New User"
     });
     loadChat();
   } catch(e) {
-    authMsg.textContent = e.message;
+    authMsg.textContent = "⚠️ " + e.message;
   }
 };
 
-async function loadChat() {
+function loadChat() {
   authSection.style.display = "none";
   chatSection.style.display = "block";
-  const userRef = ref(db, "users/" + auth.currentUser.uid);
+  const uid = auth.currentUser.uid;
+  const userRef = ref(db, "users/" + uid);
   onValue(userRef, snap=>{
     const data = snap.val();
     usernameDisplay.textContent = data?.displayName || "User";
   });
 
-  // Listen for messages
   const msgRef = ref(db, "messages");
   onValue(msgRef, snap=>{
     const data = snap.val();
@@ -160,7 +187,7 @@ async function loadChat() {
       ? Object.values(data).map(m=>`
           <div class="message"><strong>${m.displayName || "User"}:</strong> ${m.text}</div>
         `).join("")
-      : "<p>No messages yet.</p>";
+      : "<p style='color:#888;'>No messages yet.</p>";
     chatBox.scrollTop = chatBox.scrollHeight;
   });
 }
@@ -169,7 +196,8 @@ async function loadChat() {
 document.getElementById('saveNameBtn').onclick = async ()=>{
   const name = displayName.value.trim();
   if(!name) return;
-  await set(ref(db, "users/" + auth.currentUser.uid + "/displayName"), name);
+  const uid = auth.currentUser.uid;
+  await set(ref(db, "users/" + uid + "/displayName"), name);
 };
 
 // Send message
@@ -177,12 +205,9 @@ document.getElementById('sendMsgBtn').onclick = async ()=>{
   const text = chatInput.value.trim();
   if(!text) return;
   const uid = auth.currentUser.uid;
-  const userSnap = (await import("https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js")).get(ref(db, "users/" + uid));
   const name = usernameDisplay.textContent;
   await push(ref(db, "messages"), {
-    uid, text,
-    displayName: name,
-    time: serverTimestamp()
+    uid, text, displayName: name, time: serverTimestamp()
   });
   chatInput.value = "";
 };
