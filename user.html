@@ -22,15 +22,10 @@ body{
   animation:fadeIn .8s ease;
 }
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-a{color:inherit;text-decoration:none;}
 .sky{position:fixed;inset:0;z-index:-3;overflow:hidden;
   background:radial-gradient(ellipse at 10% 10%,rgba(255,45,85,0.06),transparent 6%),
              radial-gradient(ellipse at 90% 80%,rgba(124,92,255,0.04),transparent 10%),
              linear-gradient(180deg,rgba(8,6,14,1)0%,rgba(6,4,10,1)100%);
-}
-.stars{position:absolute;inset:0;
-  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><g fill="white" opacity="0.03"><circle cx="20" cy="50" r="1"/><circle cx="120" cy="70" r="1"/><circle cx="300" cy="30" r="1"/><circle cx="70" cy="320" r="1"/><circle cx="10" cy="200" r="1"/></g></svg>') repeat;
-  mix-blend-mode:screen;
 }
 .glow-orb{position:absolute;width:600px;height:600px;left:10%;top:-10%;
   background:radial-gradient(circle at 30% 30%,rgba(255,45,85,0.12),transparent 20%),
@@ -41,133 +36,156 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .brand{display:flex;gap:14px;align-items:center;}
 .brand h1{font-size:18px;margin:0;}
 .brand p{margin:0;font-size:12px;color:var(--muted);}
-nav{display:flex;gap:14px;align-items:center;}
 .btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);
   cursor:pointer;font-weight:600;
 }
 .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));
   box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0;
 }
-.main{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px;min-height:60vh;}
 .panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;
-  box-shadow:0 0 20px rgba(255,0,50,0.3);padding:40px 50px;max-width:600px;
+  box-shadow:0 0 20px rgba(255,0,50,0.3);padding:40px 50px;max-width:700px;margin:40px auto;text-align:center;
 }
-.panel h2{color:#ff0032;margin-bottom:10px;}
-.panel p{color:#ccc;margin-bottom:30px;}
-footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;
-  justify-content:center;align-items:center;border-top:1px solid var(--glass-border);
-}
-footer a.rc-link{color:inherit;text-decoration:underline;margin-left:12px;
-  transition:color .3s,text-shadow .3s;}
-footer a.rc-link:hover{color:#ff0032;text-shadow:0 0 6px #ff0032;}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:999;}
-.modal{background:rgba(30,30,30,0.95);border:2px solid rgba(255,0,50,0.4);
-  border-radius:15px;padding:30px 40px;text-align:center;box-shadow:0 0 20px rgba(255,0,50,0.5);
-  transform:scale(0.9);opacity:0;animation:scaleIn .3s forwards;
-}
-@keyframes scaleIn{to{transform:scale(1);opacity:1;}}
-input{padding:10px;width:80%;margin-top:10px;border:none;border-radius:8px;text-align:center;}
-button{margin-top:15px;background:linear-gradient(90deg,#ff0032,#ff3366);
-  border:none;color:white;font-weight:bold;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all .3s;}
-button:hover{box-shadow:0 0 15px #ff0032;transform:scale(1.05);}
-.message{color:#ff0032;margin-top:10px;font-weight:bold;min-height:1em;}
+input,textarea{padding:10px;border:none;border-radius:8px;margin:6px 0;width:100%;background:rgba(255,255,255,0.1);color:#fff;}
+.chat-box{max-height:400px;overflow-y:auto;text-align:left;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;}
+.message{margin:8px 0;padding:8px;border-radius:8px;background:rgba(255,255,255,0.05);}
+.message strong{color:#ff2d55;}
+footer{padding:22px 8vw;color:var(--muted);font-size:14px;text-align:center;border-top:1px solid var(--glass-border);}
 </style>
 </head>
 
 <body>
-<div class="sky"><div class="stars"></div><div class="glow-orb"></div></div>
+<div class="sky"><div class="glow-orb"></div></div>
 
 <header>
   <div class="brand">
     <img src="img/RCS LOG.png" alt="RedCrystal Studios Logo" width="160">
     <div>
       <h1>RedCrystal_Studios</h1>
-      <p>Indie studio — games & websites</p>
+      <p>Community Chat</p>
     </div>
   </div>
-  <nav>
-    <a class="btn" href="workg.html">Projects</a>
-    <a class="btn" href="contactg.html">Contact/Socials</a>
-  </nav>
+  <a href="index.html" class="btn">Back to Home</a>
 </header>
 
-<section class="main">
-  <div class="panel">
-    <h2>Welcome to the RedCrystal Studios User Panel</h2>
-    <p>Community messaging platform (live demo)</p>
-
-    <div id="messageArea"
-         style="max-height:300px;overflow-y:auto;
-                background:rgba(255,255,255,0.05);
-                border-radius:8px;padding:10px;margin-bottom:15px;">
-      <p style="color:#aaa;text-align:center;">No messages yet…</p>
-    </div>
-
-    <input id="username" placeholder="Enter username" style="width:80%;margin-bottom:8px;"><br>
-    <input id="message" placeholder="Type a message" style="width:80%;"><br>
-    <button id="sendBtn" class="btn primary" style="margin-top:10px;">Send</button>
-
-    <a href="index.html" class="btn primary" style="margin-top:25px;">⬅ Back to Home</a>
-  </div>
+<section class="panel" id="authSection">
+  <h2>Login or Sign Up</h2>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <button id="loginBtn" class="btn primary">Login</button>
+  <button id="signupBtn" class="btn">Sign Up</button>
+  <p id="authMsg"></p>
 </section>
 
+<section class="panel" id="chatSection" style="display:none;">
+  <h2>Welcome, <span id="usernameDisplay"></span>!</h2>
+  <input type="text" id="displayName" placeholder="Choose a display name..." />
+  <button id="saveNameBtn" class="btn primary">Save Name</button>
+
+  <div class="chat-box" id="chatBox"></div>
+
+  <textarea id="chatInput" rows="2" placeholder="Type your message..."></textarea>
+  <button id="sendMsgBtn" class="btn primary">Send Message</button>
+</section>
 
 <footer>
-  <div>
-    <a href="#" class="rc-link" data-which="user">User Panel</a> |
-    <a href="#" class="rc-link" data-which="admin">Admin Panel</a>
-  </div>
   <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
 </footer>
 
-<div id="accessModal" class="modal-overlay">
-  <div class="modal">
-    <h2>🔒 Secure Access Portal</h2>
-    <p>Enter access code:</p>
-    <input type="password" id="accessInput" placeholder="Enter code..." />
-    <button id="accessSubmit">Access</button>
-    <p id="accessMsg" class="message"></p>
-  </div>
-</div>
-
-<script>
-const modal=document.getElementById('accessModal');
-const input=document.getElementById('accessInput');
-const msg=document.getElementById('accessMsg');
-document.querySelectorAll('.rc-link').forEach(l=>{
-  l.addEventListener('click',e=>{
-    e.preventDefault();modal.style.display='flex';
-    modal.dataset.which=l.dataset.which;input.value='';msg.textContent='';
-  });
-});
-modal.addEventListener('click',e=>{if(e.target===modal)modal.style.display='none';});
-document.getElementById('accessSubmit').addEventListener('click',()=>{
-  const code=input.value.trim();
-  if(code==='AC25TX'&&modal.dataset.which==='user'){msg.style.color='#0f0';msg.textContent='Access granted!';setTimeout(()=>{window.location.href='user.html';},800);}
-  else if(code==='RCS2025DEVACCESS'&&modal.dataset.which==='admin'){msg.style.color='#0f0';msg.textContent='Admin access granted!';setTimeout(()=>{window.location.href='admin.html';},800);}
-  else{msg.style.color='#ff0032';msg.textContent='Access Denied';}
-});
-<!-- ✅ Firebase Initialization -->
+<!-- Firebase Logic -->
 <script type="module">
-  // Import Firebase from CDN
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getDatabase, ref, push, set, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyCK6PEV_f87dGuU8k04rSmL7wRVxzIynkQ",
-    authDomain: "alvion-chronicles.firebaseapp.com",
-    projectId: "alvion-chronicles",
-    storageBucket: "alvion-chronicles.appspot.com",
-    messagingSenderId: "943295347187",
-    appId: "1:943295347187:web:6e09f5a56576326df07a86",
-    measurementId: "G-E092NF3R9V"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCK6PEV_f87dGuU8k04rSmL7wRVxzIynkQ",
+  authDomain: "alvion-chronicles.firebaseapp.com",
+  projectId: "alvion-chronicles",
+  storageBucket: "alvion-chronicles.firebasestorage.app",
+  messagingSenderId: "943295347187",
+  appId: "1:943295347187:web:6e09f5a56576326df07a86",
+  measurementId: "G-E092NF3R9V"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+const authSection = document.getElementById('authSection');
+const chatSection = document.getElementById('chatSection');
+const authMsg = document.getElementById('authMsg');
+const chatBox = document.getElementById('chatBox');
+const usernameDisplay = document.getElementById('usernameDisplay');
+
+// Login / Signup
+document.getElementById('loginBtn').onclick = async ()=>{
+  const email = emailInput.value.trim();
+  const pass = password.value.trim();
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    loadChat();
+  } catch(e) {
+    authMsg.textContent = e.message;
+  }
+};
+document.getElementById('signupBtn').onclick = async ()=>{
+  const email = emailInput.value.trim();
+  const pass = password.value.trim();
+  try {
+    await createUserWithEmailAndPassword(auth, email, pass);
+    set(ref(db, 'users/' + auth.currentUser.uid), {
+      email: email,
+      displayName: "New User"
+    });
+    loadChat();
+  } catch(e) {
+    authMsg.textContent = e.message;
+  }
+};
+
+async function loadChat() {
+  authSection.style.display = "none";
+  chatSection.style.display = "block";
+  const userRef = ref(db, "users/" + auth.currentUser.uid);
+  onValue(userRef, snap=>{
+    const data = snap.val();
+    usernameDisplay.textContent = data?.displayName || "User";
+  });
+
+  // Listen for messages
+  const msgRef = ref(db, "messages");
+  onValue(msgRef, snap=>{
+    const data = snap.val();
+    chatBox.innerHTML = data
+      ? Object.values(data).map(m=>`
+          <div class="message"><strong>${m.displayName || "User"}:</strong> ${m.text}</div>
+        `).join("")
+      : "<p>No messages yet.</p>";
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+}
+
+// Save display name
+document.getElementById('saveNameBtn').onclick = async ()=>{
+  const name = displayName.value.trim();
+  if(!name) return;
+  await set(ref(db, "users/" + auth.currentUser.uid + "/displayName"), name);
+};
+
+// Send message
+document.getElementById('sendMsgBtn').onclick = async ()=>{
+  const text = chatInput.value.trim();
+  if(!text) return;
+  const uid = auth.currentUser.uid;
+  const userSnap = (await import("https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js")).get(ref(db, "users/" + uid));
+  const name = usernameDisplay.textContent;
+  await push(ref(db, "messages"), {
+    uid, text,
+    displayName: name,
+    time: serverTimestamp()
+  });
+  chatInput.value = "";
+};
 </script>
-
 </body>
 </html>
