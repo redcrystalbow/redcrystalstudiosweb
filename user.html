@@ -120,7 +120,7 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;text-align:center;bord
 <!-- Firebase + Logic -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import { getDatabase, ref, push, set, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
+import { getDatabase, ref, push, set, update, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -170,21 +170,24 @@ document.getElementById('signupBtn').onclick = async () => {
   }
 };
 
-// Load chat + user info
+// Load chat UI
 function loadChat() {
   authSection.style.display = "none";
   chatSection.style.display = "block";
   const uid = auth.currentUser.uid;
   const userRef = ref(db, "users/" + uid);
-  onValue(userRef, snap => {
+
+  // Listen for username updates
+  onValue(userRef, (snap) => {
     const data = snap.val();
-    const name = data?.displayName || localStorage.getItem("displayName") || "User";
-    usernameDisplay.textContent = name;
-    localStorage.setItem("displayName", name);
+    const display = data?.displayName || localStorage.getItem("displayName") || "User";
+    usernameDisplay.textContent = display;
+    localStorage.setItem("displayName", display);
   });
 
+  // Listen for messages
   const msgRef = ref(db, "messages");
-  onValue(msgRef, snap => {
+  onValue(msgRef, (snap) => {
     const data = snap.val();
     chatBox.innerHTML = data
       ? Object.values(data).map(m => `
@@ -195,15 +198,15 @@ function loadChat() {
   });
 }
 
-// Save display name (and remember it)
+// Save name
 document.getElementById('saveNameBtn').onclick = async () => {
   const name = displayName.value.trim();
-  if (!name) return alert("Enter a name first!");
+  if (!name) return alert("Please enter a name first!");
   const uid = auth.currentUser.uid;
-  await set(ref(db, "users/" + uid + "/displayName"), name);
+  await update(ref(db, "users/" + uid), { displayName: name });
   localStorage.setItem("displayName", name);
   usernameDisplay.textContent = name;
-  alert("✅ Name saved!");
+  alert("✅ Display name saved!");
 };
 
 // Send message
@@ -221,5 +224,6 @@ document.getElementById('sendMsgBtn').onclick = async () => {
   chatInput.value = "";
 };
 </script>
+
 </body>
 </html>
