@@ -144,18 +144,18 @@ const chatBox = document.getElementById('chatBox');
 const usernameDisplay = document.getElementById('usernameDisplay');
 
 // Login / Signup
-document.getElementById('loginBtn').onclick = async ()=>{
+document.getElementById('loginBtn').onclick = async () => {
   const email = emailInput.value.trim();
   const pass = password.value.trim();
   try {
     await signInWithEmailAndPassword(auth, email, pass);
     loadChat();
-  } catch(e) {
+  } catch (e) {
     authMsg.textContent = "⚠️ " + e.message;
   }
 };
 
-document.getElementById('signupBtn').onclick = async ()=>{
+document.getElementById('signupBtn').onclick = async () => {
   const email = emailInput.value.trim();
   const pass = password.value.trim();
   try {
@@ -165,49 +165,58 @@ document.getElementById('signupBtn').onclick = async ()=>{
       displayName: "New User"
     });
     loadChat();
-  } catch(e) {
+  } catch (e) {
     authMsg.textContent = "⚠️ " + e.message;
   }
 };
 
+// Load chat + user info
 function loadChat() {
   authSection.style.display = "none";
   chatSection.style.display = "block";
   const uid = auth.currentUser.uid;
   const userRef = ref(db, "users/" + uid);
-  onValue(userRef, snap=>{
+  onValue(userRef, snap => {
     const data = snap.val();
-    usernameDisplay.textContent = data?.displayName || "User";
+    const name = data?.displayName || localStorage.getItem("displayName") || "User";
+    usernameDisplay.textContent = name;
+    localStorage.setItem("displayName", name);
   });
 
   const msgRef = ref(db, "messages");
-  onValue(msgRef, snap=>{
+  onValue(msgRef, snap => {
     const data = snap.val();
     chatBox.innerHTML = data
-      ? Object.values(data).map(m=>`
-          <div class="message"><strong>${m.displayName || "User"}:</strong> ${m.text}</div>
+      ? Object.values(data).map(m => `
+          <div class="message"><strong>${m.displayName || "Anonymous"}:</strong> ${m.text}</div>
         `).join("")
       : "<p style='color:#888;'>No messages yet.</p>";
     chatBox.scrollTop = chatBox.scrollHeight;
   });
 }
 
-// Save display name
-document.getElementById('saveNameBtn').onclick = async ()=>{
+// Save display name (and remember it)
+document.getElementById('saveNameBtn').onclick = async () => {
   const name = displayName.value.trim();
-  if(!name) return;
+  if (!name) return alert("Enter a name first!");
   const uid = auth.currentUser.uid;
   await set(ref(db, "users/" + uid + "/displayName"), name);
+  localStorage.setItem("displayName", name);
+  usernameDisplay.textContent = name;
+  alert("✅ Name saved!");
 };
 
 // Send message
-document.getElementById('sendMsgBtn').onclick = async ()=>{
+document.getElementById('sendMsgBtn').onclick = async () => {
   const text = chatInput.value.trim();
-  if(!text) return;
+  if (!text) return;
   const uid = auth.currentUser.uid;
-  const name = usernameDisplay.textContent;
+  const name = localStorage.getItem("displayName") || usernameDisplay.textContent || "Anonymous";
   await push(ref(db, "messages"), {
-    uid, text, displayName: name, time: serverTimestamp()
+    uid,
+    text,
+    displayName: name,
+    time: serverTimestamp()
   });
   chatInput.value = "";
 };
