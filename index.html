@@ -24,7 +24,7 @@ html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-
 a{color:inherit;text-decoration:none}
 img{max-width:100%;height:auto;display:block}
 
-/* background orbs/stars */
+/* background */
 .sky{position:fixed;inset:0;z-index:-5;overflow:hidden;background:
   radial-gradient(ellipse at 10% 10%, rgba(255,45,85,0.06), transparent 6%),
   radial-gradient(ellipse at 90% 80%, rgba(124,92,255,0.04), transparent 10%),
@@ -38,26 +38,8 @@ img{max-width:100%;height:auto;display:block}
 /* header layout */
 header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;position:relative;z-index:2}
 .brand{display:flex;align-items:center;gap:14px;position:relative}
-
-/* logo wrapper: contains the PNG + the SVG mask-based outline overlay */
-/* IMPORTANT: the SVG outline sits behind the PNG (z-index lower) so it cannot cover the logo */
-.logo-wrapper{
-  position:relative;
-  width:120px;height:120px;
-  display:flex;align-items:center;justify-content:center;
-}
-
-/* the actual PNG logo sits on top */
-.logo{
-  width:100%;height:auto;display:block;position:relative;z-index:3;border-radius:14px;
-}
-
-/* The inline SVG overlay (positioned behind the PNG) */
-.logo-svg{
-  position:absolute; inset:0; width:100%; height:100%; z-index:2; pointer-events:none;
-}
-
-/* text */
+.logo-wrapper{position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center;}
+.logo{width:100%;height:auto;display:block;position:relative;border-radius:14px;}
 .brand h1{font-size:20px;letter-spacing:0.6px;margin:0;text-shadow:0 0 12px rgba(255,45,85,0.45)}
 @media(max-width:700px){.logo-wrapper{width:84px;height:84px}.brand h1{font-size:16px}}
 
@@ -74,16 +56,12 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 .neon{background:linear-gradient(90deg,var(--accent),#ffd6ea);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 6px 30px rgba(124,92,255,0.08)}
 @media(max-width:980px){.hero{grid-template-columns:1fr;padding:48px 6vw;text-align:center}}
 
-/* tech stack: by default horizontal scroll on wide screens */
+/* tech stack */
 .tech-stack{padding:80px 8vw;text-align:center}
 .section-title{font-size:2.4rem;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent;margin-bottom:40px}
 
-/* default: horizontal scroller for wide screens */
+/* panels */
 .scroll-container{display:flex;gap:30px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:30px;justify-content:center}
-.scroll-container::-webkit-scrollbar{height:8px}
-.scroll-container::-webkit-scrollbar-thumb{background-color:rgba(255,255,255,0.15);border-radius:6px}
-
-/* panel (card) */
 .panel{min-width:260px;height:340px;perspective:1000px;scroll-snap-align:center;flex-shrink:0}
 .panel-inner{position:relative;width:100%;height:100%;transition:transform .8s;transform-style:preserve-3d;border-radius:16px;box-shadow:var(--card-shadow);background:var(--glass);border:1px solid var(--glass-border)}
 .panel.flipped .panel-inner{transform:rotateY(180deg)}
@@ -93,28 +71,21 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 .panel-back{background:rgba(15,15,25,0.92);transform:rotateY(180deg);padding:24px;font-size:14px;text-align:left;line-height:1.5;overflow-y:auto}
 .panel-back h2{color:var(--accent);font-size:1.2rem;margin-bottom:8px}
 
-/* small neon glows behind icons */
+/* glow by tech */
 .html-panel img{filter:drop-shadow(0 0 10px #f16529)}
 .css-panel img{filter:drop-shadow(0 0 10px #2965f1)}
 .java-panel img{filter:drop-shadow(0 0 10px #f89820)}
 .node-panel img{filter:drop-shadow(0 0 10px #68a063)}
 
-/* responsive: switch to 2x2 grid on small screens */
+/* responsive */
 @media (max-width:900px){
-  .scroll-container{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:20px;
-    overflow-x:visible;
-    padding-bottom:0;
-    justify-items:center;
-  }
+  .scroll-container{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:20px;overflow-x:visible;padding-bottom:0;justify-items:center;}
   .panel{min-width:auto;width:100%;max-width:320px}
   .tech-stack{padding:40px 6vw}
   .section-title{font-size:1.8rem}
 }
 
-/* modal (user/admin) - centered */
+/* modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;animation:fadeIn .25s ease;z-index:50}
 .modal{background:rgba(30,30,30,.98);border:2px solid rgba(255,0,50,.35);border-radius:12px;padding:28px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.6);width:360px;max-width:92%}
 .modal h2{margin:0 0 8px;font-size:1.1rem}
@@ -123,48 +94,11 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 .modal button{padding:10px 14px;border-radius:8px;border:0;background:linear-gradient(90deg,#ff0032,#ff3366);color:#fff;cursor:pointer}
 .modal button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff}
 
-/* footer center */
+/* footer */
 footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;justify-content:center;align-items:center;border-top:1px solid var(--glass-border)}
-
-/* tiny shake class for wrong codes */
 .shake{animation:shake .35s}
 @keyframes shake{10%{transform:translateX(-5px)}30%{transform:translateX(5px)}50%{transform:translateX(-3px)}70%{transform:translateX(3px)}100%{transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-/* accessibility: focus outlines */
-.btn:focus, .panel:focus { outline:2px solid rgba(255,255,255,0.06); outline-offset:2px }
-
-/* -------------------------
-   SVG outline animation keyframes (color cycling)
-   0.3s per color -> total 1.2s cycle
-   ------------------------- */
-.outline rect {
-  animation-duration: 1.2s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  opacity: 0;
-}
-.outline-html rect { animation-name: outline-html; }
-.outline-css rect  { animation-name: outline-css; }
-.outline-js rect   { animation-name: outline-js; }
-.outline-node rect { animation-name: outline-node; }
-
-@keyframes outline-html {
-  0% { opacity: 1; } 24.9% { opacity: 1; } 25% { opacity: 0; } 100% { opacity: 0; }
-}
-@keyframes outline-css {
-  0% { opacity: 0; } 25% { opacity: 0; } 25.1% { opacity: 1; } 49.9% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; }
-}
-@keyframes outline-js {
-  0% { opacity: 0; } 50% { opacity: 0; } 50.1% { opacity: 1; } 74.9% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; }
-}
-@keyframes outline-node {
-  0% { opacity: 0; } 75% { opacity: 0; } 75.1% { opacity: 1; } 100% { opacity: 1; }
-}
-
-/* keep ring visible outside the logo area (sharp) */
-.logo-svg g { mix-blend-mode:screen; filter: drop-shadow(0 0 6px rgba(255,255,255,0.05)); }
-
   </style>
 </head>
 <body>
@@ -173,50 +107,11 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
   <!-- HEADER -->
   <header>
     <div class="brand">
-      <div class="logo-wrapper" aria-hidden="false">
-        <!-- INLINE SVG that computes a precise ring from the PNG alpha using SourceAlpha ->
-             The SVG is placed behind the PNG (logo) so it does not cover it, only shows around it. -->
-        <svg class="logo-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
-          <defs>
-            <!-- include the image inside SVG so filters can access its alpha (invisible) -->
-            <image id="svgLogoImage" href="img/RCS LOG.png" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet" opacity="0" />
-
-            <!-- create a ring: dilate(alpha) XOR alpha -->
-            <filter id="ringFilter" x="-60%" y="-60%" width="220%" height="220%">
-              <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="dilated"/>
-              <feComposite in="dilated" in2="SourceAlpha" operator="xor" result="ring"/>
-              <!-- move ring into alpha channel for masking -->
-              <feColorMatrix in="ring" type="matrix" values="0 0 0 0 0
-                                                           0 0 0 0 0
-                                                           0 0 0 0 0
-                                                           0 0 0 1 0" result="ringAlpha"/>
-              <feMerge>
-                <feMergeNode in="ringAlpha"/>
-              </feMerge>
-            </filter>
-
-            <clipPath id="logoBox"><rect x="0" y="0" width="100" height="100"/></clipPath>
-          </defs>
-
-          <!-- Four colored layers; filter produces ring alpha so each rect only renders where ring exists.
-               Since the group is behind the PNG, the ring appears around the logo (not over it). -->
-          <g clip-path="url(#logoBox)">
-            <g class="outline outline-html" filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#f16529" opacity="0"/></g>
-            <g class="outline outline-css"  filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#2965f1" opacity="0"/></g>
-            <g class="outline outline-js"   filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#ffd166" opacity="0"/></g>
-            <g class="outline outline-node" filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#68a063" opacity="0"/></g>
-          </g>
-        </svg>
-
-        <!-- PNG logo (on top so it stays crisp; ring sits behind and is visible around edges) -->
+      <div class="logo-wrapper">
         <img src="img/RCS LOG.png" alt="RedCrystal_Studios Logo" class="logo" />
       </div>
-
-      <div>
-        <h1>RedCrystal_Studios</h1>
-      </div>
+      <div><h1>RedCrystal_Studios</h1></div>
     </div>
-
     <nav>
       <a class="btn" href="workg.html">Projects</a>
       <a class="btn" href="contactg.html">Contact/Socials</a>
@@ -239,49 +134,45 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
   <!-- TECH STACK -->
   <section class="tech-stack">
     <h2 class="section-title">My Tech Stack</h2>
-
-    <div class="scroll-container" id="techContainer" aria-live="polite">
-      <div class="panel html-panel" tabindex="0" role="button" aria-pressed="false">
+    <div class="scroll-container" id="techContainer">
+      <div class="panel html-panel" tabindex="0">
         <div class="panel-inner">
           <div class="panel-front"><img src="img/HTML5.png" alt="HTML5"></div>
           <div class="panel-back"><h2>HTML5</h2><p><b>Type:</b> Markup Language<br><b>Purpose:</b> Defines the structure and elements of every webpage.</p></div>
         </div>
       </div>
-
-      <div class="panel css-panel" tabindex="0" role="button" aria-pressed="false">
+      <div class="panel css-panel" tabindex="0">
         <div class="panel-inner">
           <div class="panel-front"><img src="img/css-logo.png" alt="CSS3"></div>
-          <div class="panel-back"><h2>CSS3</h2><p><b>Type:</b> Styling Language<br><b>Purpose:</b> Controls the look, layout, animations, and responsiveness of your site.</p></div>
+          <div class="panel-back"><h2>CSS3</h2><p><b>Type:</b> Styling Language<br><b>Purpose:</b> Controls layout, animations, and responsiveness of websites.</p></div>
         </div>
       </div>
-
-      <div class="panel java-panel" tabindex="0" role="button" aria-pressed="false">
+      <div class="panel java-panel" tabindex="0">
         <div class="panel-inner">
           <div class="panel-front"><img src="img/java.png" alt="Java"></div>
-          <div class="panel-back"><h2>Java</h2><p><b>Type:</b> Programming Language<br><b>Purpose:</b> Powers backend systems, APIs, and Android apps with reliability and scale.</p></div>
+          <div class="panel-back"><h2>Java</h2><p><b>Type:</b> Programming Language<br><b>Purpose:</b> Powers backend systems, APIs, and Android apps.</p></div>
         </div>
       </div>
-
-      <div class="panel node-panel" tabindex="0" role="button" aria-pressed="false">
+      <div class="panel node-panel" tabindex="0">
         <div class="panel-inner">
           <div class="panel-front"><img src="img/nodejs.png" alt="Node.js"></div>
-          <div class="panel-back"><h2>Node.js</h2><p><b>Type:</b> Runtime Environment<br><b>Purpose:</b> Executes JavaScript on the server, ideal for APIs and real-time applications.</p></div>
+          <div class="panel-back"><h2>Node.js</h2><p><b>Type:</b> Runtime Environment<br><b>Purpose:</b> Executes JavaScript on servers for APIs and real-time apps.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ACCESS MODAL (User/Admin) -->
+  <!-- ACCESS MODAL -->
   <div id="accessModal" class="modal-overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h2 id="modalTitle">🔒 Secure Access Portal</h2>
-      <p id="modalDesc">Enter access code:</p>
-      <input id="accessInput" type="password" placeholder="Enter code..." aria-label="Access code">
+    <div class="modal">
+      <h2>🔒 Secure Access Portal</h2>
+      <p>Enter access code:</p>
+      <input id="accessInput" type="password" placeholder="Enter code...">
       <div class="modal-actions">
-        <button id="accessSubmit" aria-label="Submit access code">Access</button>
-        <button id="accessClose" class="secondary" aria-label="Close modal">Close</button>
+        <button id="accessSubmit">Access</button>
+        <button id="accessClose" class="secondary">Close</button>
       </div>
-      <p id="accessMsg" class="message" aria-live="polite" style="margin-top:8px;"></p>
+      <p id="accessMsg" style="margin-top:8px;"></p>
     </div>
   </div>
 
@@ -294,118 +185,57 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
   </footer>
 
   <script>
-/* ======================
-   Panels & modal behaviour (fixed & accessible)
-   ====================== */
-
 (function initModal(){
-  const modal = document.getElementById('accessModal');
-  const input = document.getElementById('accessInput');
-  const msg = document.getElementById('accessMsg');
-  const submit = document.getElementById('accessSubmit');
-  const closeBtn = document.getElementById('accessClose');
-
-  let lastFocused = null;
+  const modal=document.getElementById('accessModal');
+  const input=document.getElementById('accessInput');
+  const msg=document.getElementById('accessMsg');
+  const submit=document.getElementById('accessSubmit');
+  const closeBtn=document.getElementById('accessClose');
+  let lastFocused=null;
 
   function openModal(which){
-    lastFocused = document.activeElement;
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden','false');
-    modal.dataset.which = which;
-    input.value = '';
-    msg.textContent = '';
-    document.body.style.overflow = 'hidden'; // prevent page scroll
+    lastFocused=document.activeElement;
+    modal.style.display='flex';
+    modal.dataset.which=which;
+    input.value=''; msg.textContent='';
+    document.body.style.overflow='hidden';
     input.focus();
   }
-
   function closeModal(){
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
+    modal.style.display='none';
+    document.body.style.overflow='';
     if(lastFocused) lastFocused.focus();
   }
 
-  // open modal when rc-link clicked
-  document.querySelectorAll('.rc-link').forEach(link => {
-    link.addEventListener('click', (e) => {
+  document.querySelectorAll('.rc-link').forEach(link=>{
+    link.addEventListener('click',e=>{
       e.preventDefault();
       openModal(link.dataset.which);
     });
   });
+  closeBtn.addEventListener('click',closeModal);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
 
-  // close actions
-  closeBtn.addEventListener('click', () => { closeModal(); });
-  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-
-  // submit action - checks codes and redirects
-  submit.addEventListener('click', () => {
-    const code = input.value.trim();
-    if (code === 'AC25TX' && modal.dataset.which === 'user') {
-      msg.style.color = '#0f0';
-      msg.textContent = 'Access granted!';
-      setTimeout(() => { closeModal(); window.location.href = 'user.html'; }, 700);
-    } else if (code === 'RCS2025DEVACCESS' && modal.dataset.which === 'admin') {
-      msg.style.color = '#0f0';
-      msg.textContent = 'Admin access granted!';
-      setTimeout(() => { closeModal(); window.location.href = 'admin.html'; }, 700);
-    } else {
-      msg.style.color = '#ff0032';
-      msg.textContent = 'Access Denied';
-      input.classList.add('shake');
-      setTimeout(()=> input.classList.remove('shake'), 400);
-    }
-  });
-
-  // keyboard behaviour: Esc to close; trap tab inside modal
-  document.addEventListener('keydown', (e) => {
-    if (modal.style.display === 'flex') {
-      if (e.key === 'Escape') { closeModal(); return; }
-      if (e.key === 'Tab') {
-        // keep focus inside modal (basic trap)
-        const focusable = modal.querySelectorAll('button, input, [tabindex]:not([tabindex="-1"])');
-        if (!focusable.length) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
+  submit.addEventListener('click',()=>{
+    const code=input.value.trim();
+    if(code==='AC25TX'&&modal.dataset.which==='user'){
+      msg.style.color='#0f0'; msg.textContent='Access granted!';
+      setTimeout(()=>{closeModal();window.location.href='user.html';},700);
+    }else if(code==='RCS2025DEVACCESS'&&modal.dataset.which==='admin'){
+      msg.style.color='#0f0'; msg.textContent='Admin access granted!';
+      setTimeout(()=>{closeModal();window.location.href='admin.html';},700);
+    }else{
+      msg.style.color='#ff0032'; msg.textContent='Access Denied';
+      input.classList.add('shake'); setTimeout(()=>input.classList.remove('shake'),400);
     }
   });
 })();
 
-/* ======================
-   Panels: click & keyboard flip (restored)
-   ====================== */
-(function initPanels(){
-  const panels = document.querySelectorAll('.panel');
-  panels.forEach(panel => {
-    // click toggles flip
-    panel.addEventListener('click', (e) => {
-      // avoid clicks that originate from focusable interactive elements inside the panel
-      if (e.target.closest('button, a, input')) return;
-      panel.classList.toggle('flipped');
-    });
-
-    // keyboard support: Enter / Space
-    panel.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        panel.classList.toggle('flipped');
-      }
-    });
-
-    // make sure panel is focusable
-    panel.setAttribute('tabindex', '0');
+document.querySelectorAll('.panel').forEach(panel=>{
+  panel.addEventListener('click',()=>panel.classList.toggle('flipped'));
+  panel.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();panel.classList.toggle('flipped');}
   });
-})();
-
-/* ======================
-   Small reflow guard for tech cards after load
-   ====================== */
-window.addEventListener('load', () => {
-  const cont = document.getElementById('techContainer');
-  if (cont) cont.style.willChange = 'transform';
-  setTimeout(()=>{ if (cont) cont.style.willChange = 'auto'; }, 500);
 });
   </script>
 </body>
