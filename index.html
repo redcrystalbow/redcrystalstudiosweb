@@ -52,14 +52,70 @@ img { max-width:100%; height:auto; display:block; }
   filter: blur(40px); z-index:-2; transform: rotate(10deg);
 }
 
+/* ===== 🔺 Header + Rotating Neon Outline ===== */
 header {
   display:flex; align-items:center; justify-content:space-between;
   padding:20px 32px; position:relative;
 }
 
-.brand { display:flex; gap:14px; align-items:center; }
-.brand h1 { font-size:18px; letter-spacing:0.6px; margin:0; }
-.brand p { margin:0; font-size:12px; color:var(--muted); }
+.brand {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  position:relative;
+}
+
+.logo-wrapper {
+  position:relative;
+  width:120px;
+  height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo {
+  width:100%;
+  height:auto;
+  display:block;
+  position:relative;
+  z-index:2;
+  border-radius:14px;
+}
+
+.neon-border {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  border-radius:14px;
+  border:3px solid transparent;
+  background:conic-gradient(from 0deg, #ff2d55, #7c5cff, #00ffc6, #ffd966, #ff2d55);
+  mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  animation:spin 0.3s linear infinite;
+  padding:3px;
+  box-sizing:border-box;
+  z-index:1;
+  box-shadow:0 0 20px rgba(255,45,85,0.4), 0 0 25px rgba(124,92,255,0.3);
+}
+
+@keyframes spin {
+  to { transform:rotate(360deg); }
+}
+
+.brand h1 {
+  font-size:20px;
+  letter-spacing:0.6px;
+  margin:0;
+  text-shadow:0 0 12px rgba(255,45,85,0.5);
+}
+
+@media(max-width:700px){
+  .logo-wrapper{width:80px;height:80px;}
+  .brand h1{font-size:16px;}
+}
 
 nav { display:flex; gap:14px; align-items:center; }
 
@@ -73,25 +129,18 @@ nav { display:flex; gap:14px; align-items:center; }
   box-shadow:0 8px 30px rgba(124,92,255,0.14); color:white; border:0;
 }
 
+/* === Hero === */
 .hero {
   display:grid; grid-template-columns:1fr 440px; gap:40px;
   align-items:center; padding:64px 8vw;
 }
-
 .kicker {
   display:inline-block; padding:8px 12px; border-radius:999px;
   background:linear-gradient(90deg, rgba(255,45,85,0.12), rgba(124,92,255,0.08));
   color:var(--accent); font-weight:700; font-size:12px;
 }
-
-h2 {
-  font-size:46px; line-height:1.02; margin:18px 0;
-}
-
-.lead {
-  color:var(--muted); font-size:16px; max-width:64ch;
-}
-
+h2 { font-size:46px; line-height:1.02; margin:18px 0; }
+.lead { color:var(--muted); font-size:16px; max-width:64ch; }
 .neon {
   background:linear-gradient(90deg,var(--accent),#ffd6ea);
   -webkit-background-clip:text; background-clip:text; color:transparent;
@@ -129,9 +178,7 @@ footer {
   padding-bottom:30px;
   justify-content:center;
 }
-.scroll-container::-webkit-scrollbar {
-  height:8px;
-}
+.scroll-container::-webkit-scrollbar { height:8px; }
 .scroll-container::-webkit-scrollbar-thumb {
   background-color:rgba(255,255,255,0.15);
   border-radius:6px;
@@ -155,9 +202,7 @@ footer {
   border:1px solid var(--glass-border);
   transform:rotateY(0);
 }
-.panel.flipped .panel-inner {
-  transform:rotateY(180deg);
-}
+.panel.flipped .panel-inner { transform:rotateY(180deg); }
 .panel-front, .panel-back {
   position:absolute;
   width:100%; height:100%;
@@ -172,9 +217,7 @@ footer {
   width:70%; filter:drop-shadow(0 0 20px rgba(255,255,255,0.15));
   transition:transform 0.2s;
 }
-.panel:hover .panel-front img {
-  transform:scale(1.05) rotateY(5deg) rotateX(5deg);
-}
+.panel:hover .panel-front img { transform:scale(1.05) rotateY(5deg) rotateX(5deg); }
 .panel-back {
   background:rgba(15,15,25,0.92);
   transform:rotateY(180deg);
@@ -189,14 +232,11 @@ footer {
   font-size:1.2rem;
   margin-bottom:8px;
 }
-
-/* Neon color glows */
 .html-panel img { filter:drop-shadow(0 0 10px #f16529); }
 .css-panel img { filter:drop-shadow(0 0 10px #2965f1); }
 .java-panel img { filter:drop-shadow(0 0 10px #f89820); }
 .node-panel img { filter:drop-shadow(0 0 10px #68a063); }
 
-/* Responsive */
 @media(max-width:700px){
   .panel { min-width:220px; height:300px; }
   .section-title { font-size:1.8rem; }
@@ -212,10 +252,12 @@ footer {
 
   <header>
     <div class="brand">
-      <img src="img/RCS LOG.png" alt="RedCrystal_Studios Company Logo" width="160">
+      <div class="logo-wrapper">
+        <img src="img/RCS LOG.png" alt="RedCrystal_Studios Logo" class="logo">
+        <div class="neon-border"></div>
+      </div>
       <div>
         <h1>RedCrystal_Studios</h1>
-        <p>Indie studio — games & websites</p>
       </div>
     </div>
     <nav>
@@ -237,7 +279,6 @@ footer {
     </div>
   </section>
 
-  <!-- 🌐 Tech Stack Panels -->
   <section class="tech-stack">
     <h2 class="section-title">My Tech Stack</h2>
     <div class="scroll-container">
@@ -276,30 +317,6 @@ footer {
     <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
   </footer>
 
-  <!-- 🔒 Secure Access Portal Modal -->
-  <div id="accessModal" class="modal-overlay">
-    <div class="modal">
-      <h2>🔒 Secure Access Portal</h2>
-      <p>Enter access code:</p>
-      <input type="password" id="accessInput" placeholder="Enter code..." />
-      <button id="accessSubmit">Access</button>
-      <p id="accessMsg" class="message"></p>
-    </div>
-  </div>
-
-  <style>
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center; animation: fadeIn 0.4s ease; z-index: 999; }
-    .modal { background: rgba(30, 30, 30, 0.95); border: 2px solid rgba(255, 0, 50, 0.4); border-radius: 15px; padding: 30px 40px; text-align: center; box-shadow: 0 0 20px rgba(255, 0, 50, 0.5); transform: scale(0.9); opacity: 0; animation: scaleIn 0.3s forwards; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes scaleIn { to { transform: scale(1); opacity: 1; } }
-    input { padding: 10px; width: 80%; margin-top: 10px; border: none; border-radius: 8px; text-align: center; font-size: 1em; }
-    button { margin-top: 15px; background: linear-gradient(90deg, #ff0032, #ff3366); border: none; color: white; font-weight: bold; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-    button:hover { box-shadow: 0 0 15px #ff0032; transform: scale(1.05); }
-    .message { color: #ff0032; margin-top: 10px; font-weight: bold; min-height: 1em; }
-    footer a.rc-link { color: inherit; text-decoration: underline; margin-left: 12px; transition: color 0.3s, text-shadow 0.3s; }
-    footer a.rc-link:hover { color: #ff0032; text-shadow: 0 0 6px #ff0032; }
-  </style>
-
   <script>
     const modal = document.getElementById('accessModal');
     const input = document.getElementById('accessInput');
@@ -309,13 +326,6 @@ footer {
         e.preventDefault(); modal.style.display='flex'; modal.dataset.which=link.dataset.which;
         input.value=''; msg.textContent='';
       });
-    });
-    modal.addEventListener('click',e=>{ if(e.target===modal) modal.style.display='none'; });
-    document.getElementById('accessSubmit').addEventListener('click',()=>{
-      const code=input.value.trim();
-      if(code==='AC25TX'&&modal.dataset.which==='user'){ msg.style.color='#0f0'; msg.textContent='Access granted!'; setTimeout(()=>{window.location.href='user.html';},800);}
-      else if(code==='RCS2025DEVACCESS'&&modal.dataset.which==='admin'){ msg.style.color='#0f0'; msg.textContent='Admin access granted!'; setTimeout(()=>{window.location.href='admin.html';},800);}
-      else{ msg.style.color='#ff0032'; msg.textContent='Access Denied'; input.classList.add('shake'); setTimeout(()=>input.classList.remove('shake'),400);}
     });
   </script>
 </body>
