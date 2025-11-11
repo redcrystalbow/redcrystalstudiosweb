@@ -8,7 +8,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff2d55'/%3E%3C/svg%3E">
 
   <style>
-:root {
+:root{
   --bg:#0b0810;
   --glass: rgba(255,255,255,0.06);
   --accent:#ff2d55;
@@ -18,289 +18,244 @@
   --glass-border: rgba(255,255,255,0.04);
 }
 
-* { box-sizing:border-box; }
+/* basics */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:var(--bg);color:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;display:block}
 
-html, body {
-  height:100%;
-  margin:0;
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
-  background:var(--bg);
-  color:#fff;
-  -webkit-font-smoothing:antialiased;
-}
+/* background orbs/stars */
+.sky{position:fixed;inset:0;z-index:-3;overflow:hidden;background:
+  radial-gradient(ellipse at 10% 10%, rgba(255,45,85,0.06), transparent 6%),
+  radial-gradient(ellipse at 90% 80%, rgba(124,92,255,0.04), transparent 10%),
+  linear-gradient(180deg, rgba(8,6,14,1) 0%, rgba(6,4,10,1) 100%)}
+.stars{position:absolute;inset:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect fill="none" width="100%" height="100%"/><g fill="white" opacity="0.03"><circle cx="20" cy="50" r="1"/><circle cx="120" cy="70" r="1"/><circle cx="300" cy="30" r="1"/><circle cx="70" cy="320" r="1"/><circle cx="10" cy="200" r="1"/></g></svg>') repeat;mix-blend-mode:screen}
+.glow-orb{position:absolute;width:600px;height:600px;left:10%;top:-10%;background:
+  radial-gradient(circle at 30% 30%, rgba(255,45,85,0.12), transparent 20%),
+  radial-gradient(circle at 70% 70%, rgba(124,92,255,0.08), transparent 30%);
+  filter:blur(40px);z-index:-2;transform:rotate(10deg)}
 
-a { color:inherit; text-decoration:none; }
-img { max-width:100%; height:auto; display:block; }
+/* header layout */
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;position:relative}
+.brand{display:flex;align-items:center;gap:14px;position:relative}
 
-.sky {
-  position:fixed; inset:0; z-index:-3; overflow:hidden;
-  background: radial-gradient(ellipse at 10% 10%, rgba(255,45,85,0.06), transparent 6%),
-              radial-gradient(ellipse at 90% 80%, rgba(124,92,255,0.04), transparent 10%),
-              linear-gradient(180deg, rgba(8,6,14,1) 0%, rgba(6,4,10,1) 100%);
-}
-
-.stars {
-  position:absolute; inset:0;
-  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect fill="none" width="100%" height="100%"/><g fill="white" opacity="0.03"><circle cx="20" cy="50" r="1"/><circle cx="120" cy="70" r="1"/><circle cx="300" cy="30" r="1"/><circle cx="70" cy="320" r="1"/><circle cx="10" cy="200" r="1"/></g></svg>') repeat;
-  mix-blend-mode:screen;
-}
-
-.glow-orb {
-  position:absolute; width:600px; height:600px; left:10%; top:-10%;
-  background:radial-gradient(circle at 30% 30%, rgba(255,45,85,0.12), transparent 20%),
-              radial-gradient(circle at 70% 70%, rgba(124,92,255,0.08), transparent 30%);
-  filter: blur(40px); z-index:-2; transform: rotate(10deg);
-}
-
-/* ===== 🔺 Header + Rotating Neon Outline ===== */
-header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:20px 32px; position:relative;
-}
-
-.brand {
-  display:flex;
-  align-items:center;
-  gap:14px;
+/* logo wrapper: contains the PNG + the SVG mask-based outline overlay */
+.logo-wrapper{
   position:relative;
+  width:120px;height:120px;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-mask-image: none;
 }
 
-.logo-wrapper {
-  position:relative;
-  width:120px;
-  height:120px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+/* the actual PNG logo */
+.logo{
+  width:100%;height:auto;display:block;position:relative;z-index:2;border-radius:14px;
 }
 
-.logo {
-  width:100%;
-  height:auto;
-  display:block;
-  position:relative;
-  z-index:2;
-  border-radius:14px;
+/* The inline SVG (in DOM below) will contain copies used as masks; we'll style it to overlay exactly */
+.logo-svg{
+  position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none;
 }
 
-.neon-border {
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  border-radius:14px;
-  border:3px solid transparent;
-  background:conic-gradient(from 0deg, #ff2d55, #7c5cff, #00ffc6, #ffd966, #ff2d55);
-  mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-  animation:spin 0.3s linear infinite;
-  padding:3px;
-  box-sizing:border-box;
-  z-index:1;
-  box-shadow:0 0 20px rgba(255,45,85,0.4), 0 0 25px rgba(124,92,255,0.3);
+/* The neon ring is implemented in SVG groups. We'll animate opacity of 4 colored layers so only one shows per step,
+   producing a crisp colored outline that follows the logo's exact alpha (no rectangular spin). */
+
+/* text */
+.brand h1{font-size:20px;letter-spacing:0.6px;margin:0;text-shadow:0 0 12px rgba(255,45,85,0.45)}
+@media(max-width:700px){.logo-wrapper{width:84px;height:84px}.brand h1{font-size:16px}}
+
+/* nav buttons */
+nav{display:flex;gap:14px;align-items:center}
+.btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);cursor:pointer;font-weight:600}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 440px;gap:40px;align-items:center;padding:64px 8vw}
+.kicker{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,45,85,0.12), rgba(124,92,255,0.08));color:var(--accent);font-weight:700;font-size:12px}
+h2{font-size:46px;line-height:1.02;margin:18px 0}
+.lead{color:var(--muted);font-size:16px;max-width:64ch}
+.neon{background:linear-gradient(90deg,var(--accent),#ffd6ea);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 6px 30px rgba(124,92,255,0.08)}
+@media(max-width:980px){.hero{grid-template-columns:1fr;padding:48px 6vw;text-align:center}}
+
+/* tech stack: by default horizontal scroll on wide screens */
+.tech-stack{padding:80px 8vw;text-align:center}
+.section-title{font-size:2.4rem;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent;margin-bottom:40px}
+
+/* default: horizontal scroller for wide screens */
+.scroll-container{display:flex;gap:30px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:30px;justify-content:center}
+.scroll-container::-webkit-scrollbar{height:8px}
+.scroll-container::-webkit-scrollbar-thumb{background-color:rgba(255,255,255,0.15);border-radius:6px}
+
+/* panel (card) */
+.panel{min-width:260px;height:340px;perspective:1000px;scroll-snap-align:center;flex-shrink:0}
+.panel-inner{position:relative;width:100%;height:100%;transition:transform .8s;transform-style:preserve-3d;border-radius:16px;box-shadow:var(--card-shadow);background:var(--glass);border:1px solid var(--glass-border)}
+.panel.flipped .panel-inner{transform:rotateY(180deg)}
+.panel-front,.panel-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:inherit;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:transform .3s}
+.panel-front img{width:70%;filter:drop-shadow(0 0 20px rgba(255,255,255,0.15));transition:transform .2s}
+.panel:hover .panel-front img{transform:scale(1.05) rotateY(5deg) rotateX(5deg)}
+.panel-back{background:rgba(15,15,25,0.92);transform:rotateY(180deg);padding:24px;font-size:14px;text-align:left;line-height:1.5;overflow-y:auto}
+.panel-back h2{color:var(--accent);font-size:1.2rem;margin-bottom:8px}
+
+/* small neon glows behind icons */
+.html-panel img{filter:drop-shadow(0 0 10px #f16529)}
+.css-panel img{filter:drop-shadow(0 0 10px #2965f1)}
+.java-panel img{filter:drop-shadow(0 0 10px #f89820)}
+.node-panel img{filter:drop-shadow(0 0 10px #68a063)}
+
+/* --- RESPONSIVE GRID switch: on narrow widths, switch to 2x2 grid (no horizontal scrolling) --- */
+@media (max-width:900px){
+  .scroll-container{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:20px;
+    overflow-x:visible;
+    padding-bottom:0;
+    justify-items:center;
+  }
+  .panel{min-width:auto;width:100%;max-width:320px}
+  .tech-stack{padding:40px 6vw}
+  .section-title{font-size:1.8rem}
 }
 
-@keyframes spin {
-  to { transform:rotate(360deg); }
-}
+/* modal (user/admin) */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;animation:fadeIn .25s ease;z-index:999}
+.modal{background:rgba(30,30,30,.98);border:2px solid rgba(255,0,50,.35);border-radius:12px;padding:28px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.6);width:320px;max-width:90%}
+.modal h2{margin:0 0 8px;font-size:1.1rem}
+.modal input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);margin-top:10px;background:#0b0b0b;color:#fff}
+.modal .modal-actions{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.modal button{padding:10px 14px;border-radius:8px;border:0;background:linear-gradient(90deg,#ff0032,#ff3366);color:#fff;cursor:pointer}
 
-.brand h1 {
-  font-size:20px;
-  letter-spacing:0.6px;
-  margin:0;
-  text-shadow:0 0 12px rgba(255,45,85,0.5);
-}
+/* tiny shake class for wrong codes */
+.shake{animation:shake .35s}
+@keyframes shake{10%{transform:translateX(-5px)}30%{transform:translateX(5px)}50%{transform:translateX(-3px)}70%{transform:translateX(3px)}100%{transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-@media(max-width:700px){
-  .logo-wrapper{width:80px;height:80px;}
-  .brand h1{font-size:16px;}
-}
+/* accessibility: focus outlines */
+.btn:focus, .panel:focus { outline:2px solid rgba(255,255,255,0.06); outline-offset:2px }
 
-nav { display:flex; gap:14px; align-items:center; }
-
-.btn {
-  padding:10px 16px; border-radius:10px; background:transparent;
-  border:1px solid var(--glass-border); cursor:pointer; font-weight:600;
-}
-
-.btn.primary {
-  background:linear-gradient(90deg,var(--accent),var(--accent-2));
-  box-shadow:0 8px 30px rgba(124,92,255,0.14); color:white; border:0;
-}
-
-/* === Hero === */
-.hero {
-  display:grid; grid-template-columns:1fr 440px; gap:40px;
-  align-items:center; padding:64px 8vw;
-}
-.kicker {
-  display:inline-block; padding:8px 12px; border-radius:999px;
-  background:linear-gradient(90deg, rgba(255,45,85,0.12), rgba(124,92,255,0.08));
-  color:var(--accent); font-weight:700; font-size:12px;
-}
-h2 { font-size:46px; line-height:1.02; margin:18px 0; }
-.lead { color:var(--muted); font-size:16px; max-width:64ch; }
-.neon {
-  background:linear-gradient(90deg,var(--accent),#ffd6ea);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  text-shadow:0 6px 30px rgba(124,92,255,0.08);
-}
-
-footer {
-  padding:22px 8vw; color:var(--muted); font-size:14px;
-  display:flex; flex-direction:column; gap:6px;
-  justify-content:center; align-items:center;
-  border-top:1px solid var(--glass-border);
-}
-
-@media (max-width:980px) {
-  .hero { grid-template-columns:1fr; padding:48px 6vw; text-align:center; }
-}
-
-/* === 🌐 Tech Stack Panels === */
-.tech-stack {
-  padding:80px 8vw;
-  text-align:center;
-}
-.section-title {
-  font-size:2.4rem;
-  background:linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip:text;
-  color:transparent;
-  margin-bottom:40px;
-}
-.scroll-container {
-  display:flex;
-  gap:30px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  padding-bottom:30px;
-  justify-content:center;
-}
-.scroll-container::-webkit-scrollbar { height:8px; }
-.scroll-container::-webkit-scrollbar-thumb {
-  background-color:rgba(255,255,255,0.15);
-  border-radius:6px;
-}
-
-.panel {
-  min-width:260px;
-  height:340px;
-  perspective:1000px;
-  scroll-snap-align:center;
-}
-.panel-inner {
-  position:relative;
-  width:100%;
-  height:100%;
-  transition:transform 0.8s;
-  transform-style:preserve-3d;
-  border-radius:16px;
-  box-shadow:var(--card-shadow);
-  background:var(--glass);
-  border:1px solid var(--glass-border);
-  transform:rotateY(0);
-}
-.panel.flipped .panel-inner { transform:rotateY(180deg); }
-.panel-front, .panel-back {
-  position:absolute;
-  width:100%; height:100%;
-  backface-visibility:hidden;
-  border-radius:inherit;
-  overflow:hidden;
-  display:flex; align-items:center; justify-content:center;
-  flex-direction:column;
-  transition:transform 0.3s;
-}
-.panel-front img {
-  width:70%; filter:drop-shadow(0 0 20px rgba(255,255,255,0.15));
-  transition:transform 0.2s;
-}
-.panel:hover .panel-front img { transform:scale(1.05) rotateY(5deg) rotateX(5deg); }
-.panel-back {
-  background:rgba(15,15,25,0.92);
-  transform:rotateY(180deg);
-  padding:24px;
-  font-size:14px;
-  text-align:left;
-  line-height:1.5;
-  overflow-y:auto;
-}
-.panel-back h2 {
-  color:var(--accent);
-  font-size:1.2rem;
-  margin-bottom:8px;
-}
-.html-panel img { filter:drop-shadow(0 0 10px #f16529); }
-.css-panel img { filter:drop-shadow(0 0 10px #2965f1); }
-.java-panel img { filter:drop-shadow(0 0 10px #f89820); }
-.node-panel img { filter:drop-shadow(0 0 10px #68a063); }
-
-@media(max-width:700px){
-  .panel { min-width:220px; height:300px; }
-  .section-title { font-size:1.8rem; }
-}
   </style>
 </head>
-
 <body>
-  <div class="sky">
-    <div class="stars"></div>
-    <div class="glow-orb"></div>
-  </div>
+  <div class="sky"><div class="stars"></div><div class="glow-orb"></div></div>
 
+  <!-- HEADER -->
   <header>
     <div class="brand">
-      <div class="logo-wrapper">
+      <div class="logo-wrapper" aria-hidden="false">
+        <!-- PNG logo (keeps look and texture) -->
         <img src="img/RCS LOG.png" alt="RedCrystal_Studios Logo" class="logo">
-        <div class="neon-border"></div>
+
+        <!-- INLINE SVG used to create a precise outline mask from the PNG alpha,
+             then render 4 colored outline layers (one for each tech color).
+             The outline is computed by dilating the source alpha (feMorphology) then subtracting the original alpha,
+             leaving a thin ring exactly following the logo shape. Each colored layer is shown in sequence via CSS animation.
+         -->
+        <svg class="logo-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <!-- filter: dilate the alpha to produce an outline (ring). adjust radius if thinner/wider ring needed -->
+            <filter id="outlineFilter" x="-40%" y="-40%" width="180%" height="180%">
+              <!-- get source alpha -->
+              <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" href="img/RCS%20LOG.png" result="srcImg"/>
+              <feComposite in="srcImg" in2="srcImg" operator="in" result="srcAlpha"/>
+              <!-- dilate to make outer shape -->
+              <feMorphology in="srcAlpha" operator="dilate" radius="2" result="dilated"/>
+              <!-- subtract original alpha to leave only ring -->
+              <feComposite in="dilated" in2="srcAlpha" operator="xor" result="ring"/>
+              <!-- output ring in alpha channel -->
+              <feColorMatrix in="ring" type="matrix"
+                values="0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 1 0" result="ringAlpha"/>
+              <!-- use the ringAlpha as mask for following rects -->
+              <feBlend in="ringAlpha" in2="SourceGraphic" mode="normal"/>
+            </filter>
+
+            <!-- clipPath to align the overlay exactly to the image box -->
+            <clipPath id="logoBox">
+              <rect x="0" y="0" width="100" height="100" />
+            </clipPath>
+          </defs>
+
+          <!-- Four colored rectangles (one per tech colour). They are masked so only the ring shows.
+               We'll animate opacity so only one is visible at a time, producing a crisp color-cycle.
+               The animation duration is 1.2s; each color shows for 0.3s (as requested).
+          -->
+          <g clip-path="url(#logoBox)">
+            <!-- HTML (orange) -->
+            <g class="outline outline-html" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
+              <rect x="0" y="0" width="100" height="100" fill="#f16529" opacity="0"/>
+            </g>
+
+            <!-- CSS (blue) -->
+            <g class="outline outline-css" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
+              <rect x="0" y="0" width="100" height="100" fill="#2965f1" opacity="0"/>
+            </g>
+
+            <!-- JS (yellow) -->
+            <g class="outline outline-js" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
+              <rect x="0" y="0" width="100" height="100" fill="#ffd166" opacity="0"/>
+            </g>
+
+            <!-- Node (green) -->
+            <g class="outline outline-node" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
+              <rect x="0" y="0" width="100" height="100" fill="#68a063" opacity="0"/>
+            </g>
+          </g>
+        </svg>
       </div>
+
       <div>
         <h1>RedCrystal_Studios</h1>
       </div>
     </div>
+
     <nav>
       <a class="btn" href="workg.html">Projects</a>
       <a class="btn" href="contactg.html">Contact/Socials</a>
     </nav>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
     <div>
       <span class="kicker">Welcome to RedCrystal_Studios</span>
       <h2>Hello, Welcome to <span class="neon">RedCrystal_Studios</span></h2>
       <p class="lead">
-        We are a small indie dev game company currently in the middle of making a game called 
-        <strong>Tale of Heroes</strong>.  
-        You can keep up with all info related to that here.
+        We are a small indie dev game company currently in the middle of making a game called
+        <strong>Tale of Heroes</strong>.
       </p>
       <a href="workg.html" class="btn primary">Go to Tale of Heroes</a>
     </div>
   </section>
 
+  <!-- TECH STACK -->
   <section class="tech-stack">
     <h2 class="section-title">My Tech Stack</h2>
-    <div class="scroll-container">
-      <div class="panel html-panel" onclick="this.classList.toggle('flipped')">
+
+    <div class="scroll-container" id="techContainer">
+      <div class="panel html-panel" tabindex="0" role="button" aria-pressed="false" onclick="this.classList.toggle('flipped')">
         <div class="panel-inner">
           <div class="panel-front"><img src="img/HTML5.png" alt="HTML5"></div>
           <div class="panel-back"><h2>HTML5</h2><p><b>Type:</b> Markup Language<br><b>Purpose:</b> Defines the structure and elements of every webpage.</p></div>
         </div>
       </div>
-      <div class="panel css-panel" onclick="this.classList.toggle('flipped')">
+
+      <div class="panel css-panel" tabindex="0" role="button" aria-pressed="false" onclick="this.classList.toggle('flipped')">
         <div class="panel-inner">
-          <div class="panel-front"><img src="img/css-logo.png" alt="CSS"></div>
+          <div class="panel-front"><img src="img/css-logo.png" alt="CSS3"></div>
           <div class="panel-back"><h2>CSS3</h2><p><b>Type:</b> Styling Language<br><b>Purpose:</b> Controls the look, layout, animations, and responsiveness of your site.</p></div>
         </div>
       </div>
-      <div class="panel java-panel" onclick="this.classList.toggle('flipped')">
+
+      <div class="panel java-panel" tabindex="0" role="button" aria-pressed="false" onclick="this.classList.toggle('flipped')">
         <div class="panel-inner">
           <div class="panel-front"><img src="img/java.png" alt="Java"></div>
           <div class="panel-back"><h2>Java</h2><p><b>Type:</b> Programming Language<br><b>Purpose:</b> Powers backend systems, APIs, and Android apps with reliability and scale.</p></div>
         </div>
       </div>
-      <div class="panel node-panel" onclick="this.classList.toggle('flipped')">
+
+      <div class="panel node-panel" tabindex="0" role="button" aria-pressed="false" onclick="this.classList.toggle('flipped')">
         <div class="panel-inner">
           <div class="panel-front"><img src="img/nodejs.png" alt="Node.js"></div>
           <div class="panel-back"><h2>Node.js</h2><p><b>Type:</b> Runtime Environment<br><b>Purpose:</b> Executes JavaScript on the server, ideal for APIs and real-time applications.</p></div>
@@ -309,24 +264,143 @@ footer {
     </div>
   </section>
 
+  <!-- ACCESS MODAL (User/Admin) -->
+  <div id="accessModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">🔒 Secure Access Portal</h2>
+      <p id="modalDesc">Enter access code:</p>
+      <input id="accessInput" type="password" placeholder="Enter code..." aria-label="Access code">
+      <div class="modal-actions">
+        <button id="accessSubmit" aria-label="Submit access code">Access</button>
+        <button id="accessClose" aria-label="Close modal">Close</button>
+      </div>
+      <p id="accessMsg" class="message" aria-live="polite" style="margin-top:8px;"></p>
+    </div>
+  </div>
+
   <footer>
     <div>
-      <a href="#" class="rc-link" data-which="user">User Panel</a> | 
+      <a href="#" class="rc-link" data-which="user">User Panel</a> |
       <a href="#" class="rc-link" data-which="admin">Admin Panel</a>
     </div>
     <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
   </footer>
 
   <script>
-    const modal = document.getElementById('accessModal');
-    const input = document.getElementById('accessInput');
-    const msg = document.getElementById('accessMsg');
-    document.querySelectorAll('.rc-link').forEach(link=>{
-      link.addEventListener('click',e=>{
-        e.preventDefault(); modal.style.display='flex'; modal.dataset.which=link.dataset.which;
-        input.value=''; msg.textContent='';
-      });
+/* ======================
+   Outline color animation (SVG layer opacities)
+   ====================== */
+
+/*
+ We'll animate the four colored outline layers in sequence.
+ Each color shows for 0.3s; full cycle 1.2s. We apply a CSS animation by toggling opacity for each group.
+*/
+(function installOutlineAnimation(){
+  const style = document.createElement('style');
+  style.textContent = `
+    /* each outline layer fades in/out in sequence */
+    .outline-html rect, .outline-css rect, .outline-js rect, .outline-node rect {
+      animation-duration: 1.2s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      opacity: 0;
+    }
+    .outline-html rect { animation-name: cycle-html; }
+    .outline-css rect { animation-name: cycle-css; }
+    .outline-js rect { animation-name: cycle-js; }
+    .outline-node rect { animation-name: cycle-node; }
+
+    @keyframes cycle-html {
+      0%{opacity:1} 24.999%{opacity:1} 25%{opacity:0} 100%{opacity:0}
+    }
+    @keyframes cycle-css {
+      0%{opacity:0} 25%{opacity:0} 25.0001%{opacity:1} 49.999%{opacity:1} 50%{opacity:0} 100%{opacity:0}
+    }
+    @keyframes cycle-js {
+      0%{opacity:0} 50%{opacity:0} 50.0001%{opacity:1} 74.999%{opacity:1} 75%{opacity:0} 100%{opacity:0}
+    }
+    @keyframes cycle-node {
+      0%{opacity:0} 75%{opacity:0} 75.0001%{opacity:1} 100%{opacity:1}
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+/* ======================
+   Restore modal behaviour for User/Admin links
+   ====================== */
+(() => {
+  const modal = document.getElementById('accessModal');
+  const input = document.getElementById('accessInput');
+  const msg = document.getElementById('accessMsg');
+  const submit = document.getElementById('accessSubmit');
+  const closeBtn = document.getElementById('accessClose');
+
+  // open modal when rc-link clicked
+  document.querySelectorAll('.rc-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden','false');
+      modal.dataset.which = link.dataset.which;
+      input.value = '';
+      msg.textContent = '';
+      input.focus();
     });
+  });
+
+  // close actions
+  closeBtn.addEventListener('click', () => { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); });
+  modal.addEventListener('click', e => { if (e.target === modal) { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } });
+
+  // simple code checking: same as your original codes
+  submit.addEventListener('click', () => {
+    const code = input.value.trim();
+    if (code === 'AC25TX' && modal.dataset.which === 'user') {
+      msg.style.color = '#0f0';
+      msg.textContent = 'Access granted!';
+      setTimeout(() => { window.location.href = 'user.html'; }, 700);
+    } else if (code === 'RCS2025DEVACCESS' && modal.dataset.which === 'admin') {
+      msg.style.color = '#0f0';
+      msg.textContent = 'Admin access granted!';
+      setTimeout(() => { window.location.href = 'admin.html'; }, 700);
+    } else {
+      msg.style.color = '#ff0032';
+      msg.textContent = 'Access Denied';
+      input.classList.add('shake');
+      setTimeout(()=> input.classList.remove('shake'), 400);
+    }
+  });
+
+  // keyboard accessibility: Esc to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (modal.style.display === 'flex') { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); }
+    }
+  });
+})();
+
+/* ======================
+   Panels: support keyboard flip (space/enter)
+   ====================== */
+document.querySelectorAll('.panel').forEach(panel=>{
+  panel.addEventListener('keydown', e=>{
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      panel.classList.toggle('flipped');
+    }
+  });
+});
+
+/* ======================
+   Optional: ensure tech cards fit cleanly (no horizontal jump) after images load
+   ====================== */
+window.addEventListener('load', () => {
+  // force reflow if needed
+  const cont = document.getElementById('techContainer');
+  if (cont) cont.style.willChange = 'transform';
+  setTimeout(()=>{ if (cont) cont.style.willChange = 'auto'; }, 500);
+});
   </script>
 </body>
 </html>
