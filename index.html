@@ -6,7 +6,7 @@
   <title>RedCrystal Studios</title>
   <meta name="description" content="RedCrystal_Studios — Indie studio building bold video games and slick websites." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff2d55'/%3E%3C/svg%3E">
-  
+
   <style>
 :root {
   --bg:#0b0810;
@@ -108,6 +108,99 @@ footer {
 @media (max-width:980px) {
   .hero { grid-template-columns:1fr; padding:48px 6vw; text-align:center; }
 }
+
+/* === 🌐 Tech Stack Panels === */
+.tech-stack {
+  padding:80px 8vw;
+  text-align:center;
+}
+.section-title {
+  font-size:2.4rem;
+  background:linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip:text;
+  color:transparent;
+  margin-bottom:40px;
+}
+.scroll-container {
+  display:flex;
+  gap:30px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding-bottom:30px;
+  justify-content:center;
+}
+.scroll-container::-webkit-scrollbar {
+  height:8px;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color:rgba(255,255,255,0.15);
+  border-radius:6px;
+}
+
+.panel {
+  min-width:260px;
+  height:340px;
+  perspective:1000px;
+  scroll-snap-align:center;
+}
+.panel-inner {
+  position:relative;
+  width:100%;
+  height:100%;
+  transition:transform 0.8s;
+  transform-style:preserve-3d;
+  border-radius:16px;
+  box-shadow:var(--card-shadow);
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  transform:rotateY(0);
+}
+.panel.flipped .panel-inner {
+  transform:rotateY(180deg);
+}
+.panel-front, .panel-back {
+  position:absolute;
+  width:100%; height:100%;
+  backface-visibility:hidden;
+  border-radius:inherit;
+  overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column;
+  transition:transform 0.3s;
+}
+.panel-front img {
+  width:70%; filter:drop-shadow(0 0 20px rgba(255,255,255,0.15));
+  transition:transform 0.2s;
+}
+.panel:hover .panel-front img {
+  transform:scale(1.05) rotateY(5deg) rotateX(5deg);
+}
+.panel-back {
+  background:rgba(15,15,25,0.92);
+  transform:rotateY(180deg);
+  padding:24px;
+  font-size:14px;
+  text-align:left;
+  line-height:1.5;
+  overflow-y:auto;
+}
+.panel-back h2 {
+  color:var(--accent);
+  font-size:1.2rem;
+  margin-bottom:8px;
+}
+
+/* Neon color glows */
+.html-panel img { filter:drop-shadow(0 0 10px #f16529); }
+.css-panel img { filter:drop-shadow(0 0 10px #2965f1); }
+.java-panel img { filter:drop-shadow(0 0 10px #f89820); }
+.node-panel img { filter:drop-shadow(0 0 10px #68a063); }
+
+/* Responsive */
+@media(max-width:700px){
+  .panel { min-width:220px; height:300px; }
+  .section-title { font-size:1.8rem; }
+}
   </style>
 </head>
 
@@ -119,7 +212,7 @@ footer {
 
   <header>
     <div class="brand">
-      <img src="img/RCS LOG.png" alt="RedCrystal_Studios Company Logo" width="160" height="auto">
+      <img src="img/RCS LOG.png" alt="RedCrystal_Studios Company Logo" width="160">
       <div>
         <h1>RedCrystal_Studios</h1>
         <p>Indie studio — games & websites</p>
@@ -144,6 +237,37 @@ footer {
     </div>
   </section>
 
+  <!-- 🌐 Tech Stack Panels -->
+  <section class="tech-stack">
+    <h2 class="section-title">My Tech Stack</h2>
+    <div class="scroll-container">
+      <div class="panel html-panel" onclick="this.classList.toggle('flipped')">
+        <div class="panel-inner">
+          <div class="panel-front"><img src="HTML5.png" alt="HTML5"></div>
+          <div class="panel-back"><h2>HTML5</h2><p><b>Type:</b> Markup Language<br><b>Purpose:</b> Defines the structure and elements of every webpage.</p></div>
+        </div>
+      </div>
+      <div class="panel css-panel" onclick="this.classList.toggle('flipped')">
+        <div class="panel-inner">
+          <div class="panel-front"><img src="css-logo.png" alt="CSS"></div>
+          <div class="panel-back"><h2>CSS3</h2><p><b>Type:</b> Styling Language<br><b>Purpose:</b> Controls the look, layout, animations, and responsiveness of your site.</p></div>
+        </div>
+      </div>
+      <div class="panel java-panel" onclick="this.classList.toggle('flipped')">
+        <div class="panel-inner">
+          <div class="panel-front"><img src="java.png" alt="Java"></div>
+          <div class="panel-back"><h2>Java</h2><p><b>Type:</b> Programming Language<br><b>Purpose:</b> Powers backend systems, APIs, and Android apps with reliability and scale.</p></div>
+        </div>
+      </div>
+      <div class="panel node-panel" onclick="this.classList.toggle('flipped')">
+        <div class="panel-inner">
+          <div class="panel-front"><img src="nodejs.png" alt="Node.js"></div>
+          <div class="panel-back"><h2>Node.js</h2><p><b>Type:</b> Runtime Environment<br><b>Purpose:</b> Executes JavaScript on the server, ideal for APIs and real-time applications.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div>
       <a href="#" class="rc-link" data-which="user">User Panel</a> | 
@@ -164,94 +288,34 @@ footer {
   </div>
 
   <style>
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: none; justify-content: center; align-items: center;
-      animation: fadeIn 0.4s ease;
-      z-index: 999;
-    }
-    .modal {
-      background: rgba(30, 30, 30, 0.95);
-      border: 2px solid rgba(255, 0, 50, 0.4);
-      border-radius: 15px;
-      padding: 30px 40px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(255, 0, 50, 0.5);
-      transform: scale(0.9);
-      opacity: 0;
-      animation: scaleIn 0.3s forwards;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center; animation: fadeIn 0.4s ease; z-index: 999; }
+    .modal { background: rgba(30, 30, 30, 0.95); border: 2px solid rgba(255, 0, 50, 0.4); border-radius: 15px; padding: 30px 40px; text-align: center; box-shadow: 0 0 20px rgba(255, 0, 50, 0.5); transform: scale(0.9); opacity: 0; animation: scaleIn 0.3s forwards; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes scaleIn { to { transform: scale(1); opacity: 1; } }
-    input {
-      padding: 10px; width: 80%; margin-top: 10px; border: none;
-      border-radius: 8px; text-align: center; font-size: 1em;
-    }
-    button {
-      margin-top: 15px;
-      background: linear-gradient(90deg, #ff0032, #ff3366);
-      border: none; color: white; font-weight: bold;
-      padding: 10px 20px; border-radius: 8px; cursor: pointer;
-      transition: all 0.3s;
-    }
-    button:hover {
-      box-shadow: 0 0 15px #ff0032;
-      transform: scale(1.05);
-    }
-    .message {
-      color: #ff0032;
-      margin-top: 10px;
-      font-weight: bold;
-      min-height: 1em;
-    }
-    footer a.rc-link {
-      color: inherit;
-      text-decoration: underline;
-      margin-left: 12px;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-    footer a.rc-link:hover {
-      color: #ff0032;
-      text-shadow: 0 0 6px #ff0032;
-    }
+    input { padding: 10px; width: 80%; margin-top: 10px; border: none; border-radius: 8px; text-align: center; font-size: 1em; }
+    button { margin-top: 15px; background: linear-gradient(90deg, #ff0032, #ff3366); border: none; color: white; font-weight: bold; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+    button:hover { box-shadow: 0 0 15px #ff0032; transform: scale(1.05); }
+    .message { color: #ff0032; margin-top: 10px; font-weight: bold; min-height: 1em; }
+    footer a.rc-link { color: inherit; text-decoration: underline; margin-left: 12px; transition: color 0.3s, text-shadow 0.3s; }
+    footer a.rc-link:hover { color: #ff0032; text-shadow: 0 0 6px #ff0032; }
   </style>
 
   <script>
     const modal = document.getElementById('accessModal');
     const input = document.getElementById('accessInput');
     const msg = document.getElementById('accessMsg');
-
-    document.querySelectorAll('.rc-link').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        modal.style.display = 'flex';
-        modal.dataset.which = link.dataset.which;
-        input.value = '';
-        msg.textContent = '';
+    document.querySelectorAll('.rc-link').forEach(link=>{
+      link.addEventListener('click',e=>{
+        e.preventDefault(); modal.style.display='flex'; modal.dataset.which=link.dataset.which;
+        input.value=''; msg.textContent='';
       });
     });
-
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.style.display = 'none';
-    });
-
-    document.getElementById('accessSubmit').addEventListener('click', () => {
-      const code = input.value.trim();
-      if (code === 'AC25TX' && modal.dataset.which === 'user') {
-        msg.style.color = '#0f0';
-        msg.textContent = 'Access granted!';
-        setTimeout(() => { window.location.href = 'user.html'; }, 800);
-      } else if (code === 'RCS2025DEVACCESS' && modal.dataset.which === 'admin') {
-        msg.style.color = '#0f0';
-        msg.textContent = 'Admin access granted!';
-        setTimeout(() => { window.location.href = 'admin.html'; }, 800);
-      } else {
-        msg.style.color = '#ff0032';
-        msg.textContent = 'Access Denied';
-        input.classList.add('shake');
-        setTimeout(() => input.classList.remove('shake'), 400);
-      }
+    modal.addEventListener('click',e=>{ if(e.target===modal) modal.style.display='none'; });
+    document.getElementById('accessSubmit').addEventListener('click',()=>{
+      const code=input.value.trim();
+      if(code==='AC25TX'&&modal.dataset.which==='user'){ msg.style.color='#0f0'; msg.textContent='Access granted!'; setTimeout(()=>{window.location.href='user.html';},800);}
+      else if(code==='RCS2025DEVACCESS'&&modal.dataset.which==='admin'){ msg.style.color='#0f0'; msg.textContent='Admin access granted!'; setTimeout(()=>{window.location.href='admin.html';},800);}
+      else{ msg.style.color='#ff0032'; msg.textContent='Access Denied'; input.classList.add('shake'); setTimeout(()=>input.classList.remove('shake'),400);}
     });
   </script>
 </body>
