@@ -52,13 +52,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
   width:100%;height:auto;display:block;position:relative;z-index:2;border-radius:14px;
 }
 
-/* The inline SVG (in DOM below) will contain copies used as masks; we'll style it to overlay exactly */
+/* The inline SVG overlay */
 .logo-svg{
-  position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none;
+  position:absolute; inset:0; width:100%; height:100%; z-index:3; pointer-events:none;
 }
-
-/* The neon ring is implemented in SVG groups. We'll animate opacity of 4 colored layers so only one shows per step,
-   producing a crisp colored outline that follows the logo's exact alpha (no rectangular spin). */
 
 /* text */
 .brand h1{font-size:20px;letter-spacing:0.6px;margin:0;text-shadow:0 0 12px rgba(255,45,85,0.45)}
@@ -102,7 +99,7 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 .java-panel img{filter:drop-shadow(0 0 10px #f89820)}
 .node-panel img{filter:drop-shadow(0 0 10px #68a063)}
 
-/* --- RESPONSIVE GRID switch: on narrow widths, switch to 2x2 grid (no horizontal scrolling) --- */
+/* responsive: switch to 2x2 grid on small screens */
 @media (max-width:900px){
   .scroll-container{
     display:grid;
@@ -124,6 +121,7 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 .modal input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);margin-top:10px;background:#0b0b0b;color:#fff}
 .modal .modal-actions{display:flex;gap:8px;justify-content:center;margin-top:12px}
 .modal button{padding:10px 14px;border-radius:8px;border:0;background:linear-gradient(90deg,#ff0032,#ff3366);color:#fff;cursor:pointer}
+.modal button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff}
 
 /* tiny shake class for wrong codes */
 .shake{animation:shake .35s}
@@ -132,6 +130,36 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 
 /* accessibility: focus outlines */
 .btn:focus, .panel:focus { outline:2px solid rgba(255,255,255,0.06); outline-offset:2px }
+
+/* -------------------------
+   SVG outline animation keyframes (color cycling)
+   ------------------------- */
+.outline rect {
+  animation-duration: 1.2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0;
+}
+.outline-html rect { animation-name: outline-html; }
+.outline-css rect  { animation-name: outline-css; }
+.outline-js rect   { animation-name: outline-js; }
+.outline-node rect { animation-name: outline-node; }
+
+@keyframes outline-html {
+  0% { opacity: 1; } 24.9% { opacity: 1; } 25% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes outline-css {
+  0% { opacity: 0; } 25% { opacity: 0; } 25.1% { opacity: 1; } 49.9% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes outline-js {
+  0% { opacity: 0; } 50% { opacity: 0; } 50.1% { opacity: 1; } 74.9% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes outline-node {
+  0% { opacity: 0; } 75% { opacity: 0; } 75.1% { opacity: 1; } 100% { opacity: 1; }
+}
+
+/* optional small outer crisp accent so the outline reads well on dark bg */
+.logo-svg g { mix-blend-mode:screen; filter: drop-shadow(0 0 6px rgba(255,255,255,0.05)); }
 
   </style>
 </head>
@@ -145,62 +173,40 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
         <!-- PNG logo (keeps look and texture) -->
         <img src="img/RCS LOG.png" alt="RedCrystal_Studios Logo" class="logo">
 
-        <!-- INLINE SVG used to create a precise outline mask from the PNG alpha,
-             then render 4 colored outline layers (one for each tech color).
-             The outline is computed by dilating the source alpha (feMorphology) then subtracting the original alpha,
-             leaving a thin ring exactly following the logo shape. Each colored layer is shown in sequence via CSS animation.
-         -->
-        <svg class="logo-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- INLINE SVG that uses SourceAlpha/dilation to build a ring from the PNG's transparency.
+             Each colored rect is masked by the computed ring and we crossfade them in sequence.
+             NOTE: viewBox is square; the PNG is positioned to fit this box (preserveAspectRatio used).
+        -->
+        <svg class="logo-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
           <defs>
-            <!-- filter: dilate the alpha to produce an outline (ring). adjust radius if thinner/wider ring needed -->
-            <filter id="outlineFilter" x="-40%" y="-40%" width="180%" height="180%">
-              <!-- get source alpha -->
-              <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" href="img/RCS%20LOG.png" result="srcImg"/>
-              <feComposite in="srcImg" in2="srcImg" operator="in" result="srcAlpha"/>
-              <!-- dilate to make outer shape -->
-              <feMorphology in="srcAlpha" operator="dilate" radius="2" result="dilated"/>
-              <!-- subtract original alpha to leave only ring -->
-              <feComposite in="dilated" in2="srcAlpha" operator="xor" result="ring"/>
-              <!-- output ring in alpha channel -->
-              <feColorMatrix in="ring" type="matrix"
-                values="0 0 0 0 0
-                        0 0 0 0 0
-                        0 0 0 0 0
-                        0 0 0 1 0" result="ringAlpha"/>
-              <!-- use the ringAlpha as mask for following rects -->
-              <feBlend in="ringAlpha" in2="SourceGraphic" mode="normal"/>
+            <!-- Use SourceAlpha of the following image by drawing it inside the SVG, then using feMorphology on SourceAlpha -->
+            <!-- We'll include the image (invisible) so SourceAlpha exists for the filter -->
+            <image id="logoImage" href="img/RCS LOG.png" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet" opacity="0" />
+
+            <!-- filter: use SourceAlpha -> dilate -> xor to produce ring -->
+            <filter id="ringFilter" x="-50%" y="-50%" width="200%" height="200%" primitiveUnits="objectBoundingBox">
+              <!-- SourceAlpha will refer to the painted content's alpha (the image above) -->
+              <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="dilated"/>
+              <feComposite in="dilated" in2="SourceAlpha" operator="xor" result="ring"/>
+              <feColorMatrix in="ring" type="matrix" values="0 0 0 0 0
+                                                             0 0 0 0 0
+                                                             0 0 0 0 0
+                                                             0 0 0 1 0" result="ringAlpha"/>
+              <!-- place ringAlpha into alpha channel for masking -->
+              <feMerge>
+                <feMergeNode in="ringAlpha" />
+              </feMerge>
             </filter>
 
-            <!-- clipPath to align the overlay exactly to the image box -->
-            <clipPath id="logoBox">
-              <rect x="0" y="0" width="100" height="100" />
-            </clipPath>
+            <clipPath id="logoBox"><rect x="0" y="0" width="100" height="100" /></clipPath>
           </defs>
 
-          <!-- Four colored rectangles (one per tech colour). They are masked so only the ring shows.
-               We'll animate opacity so only one is visible at a time, producing a crisp color-cycle.
-               The animation duration is 1.2s; each color shows for 0.3s (as requested).
-          -->
+          <!-- colored layer rects masked by the ring (filter) -->
           <g clip-path="url(#logoBox)">
-            <!-- HTML (orange) -->
-            <g class="outline outline-html" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
-              <rect x="0" y="0" width="100" height="100" fill="#f16529" opacity="0"/>
-            </g>
-
-            <!-- CSS (blue) -->
-            <g class="outline outline-css" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
-              <rect x="0" y="0" width="100" height="100" fill="#2965f1" opacity="0"/>
-            </g>
-
-            <!-- JS (yellow) -->
-            <g class="outline outline-js" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
-              <rect x="0" y="0" width="100" height="100" fill="#ffd166" opacity="0"/>
-            </g>
-
-            <!-- Node (green) -->
-            <g class="outline outline-node" style="mix-blend-mode:screen;filter:url(#outlineFilter)">
-              <rect x="0" y="0" width="100" height="100" fill="#68a063" opacity="0"/>
-            </g>
+            <g class="outline outline-html" filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#f16529" opacity="0"/></g>
+            <g class="outline outline-css"  filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#2965f1" opacity="0"/></g>
+            <g class="outline outline-js"   filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#ffd166" opacity="0"/></g>
+            <g class="outline outline-node" filter="url(#ringFilter)"><rect x="0" y="0" width="100" height="100" fill="#68a063" opacity="0"/></g>
           </g>
         </svg>
       </div>
@@ -272,7 +278,7 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
       <input id="accessInput" type="password" placeholder="Enter code..." aria-label="Access code">
       <div class="modal-actions">
         <button id="accessSubmit" aria-label="Submit access code">Access</button>
-        <button id="accessClose" aria-label="Close modal">Close</button>
+        <button id="accessClose" class="secondary" aria-label="Close modal">Close</button>
       </div>
       <p id="accessMsg" class="message" aria-live="polite" style="margin-top:8px;"></p>
     </div>
@@ -288,82 +294,60 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 
   <script>
 /* ======================
-   Outline color animation (SVG layer opacities)
+   Panels & modal behaviour (fixed & accessible)
    ====================== */
 
-/*
- We'll animate the four colored outline layers in sequence.
- Each color shows for 0.3s; full cycle 1.2s. We apply a CSS animation by toggling opacity for each group.
-*/
-(function installOutlineAnimation(){
-  const style = document.createElement('style');
-  style.textContent = `
-    /* each outline layer fades in/out in sequence */
-    .outline-html rect, .outline-css rect, .outline-js rect, .outline-node rect {
-      animation-duration: 1.2s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      opacity: 0;
-    }
-    .outline-html rect { animation-name: cycle-html; }
-    .outline-css rect { animation-name: cycle-css; }
-    .outline-js rect { animation-name: cycle-js; }
-    .outline-node rect { animation-name: cycle-node; }
-
-    @keyframes cycle-html {
-      0%{opacity:1} 24.999%{opacity:1} 25%{opacity:0} 100%{opacity:0}
-    }
-    @keyframes cycle-css {
-      0%{opacity:0} 25%{opacity:0} 25.0001%{opacity:1} 49.999%{opacity:1} 50%{opacity:0} 100%{opacity:0}
-    }
-    @keyframes cycle-js {
-      0%{opacity:0} 50%{opacity:0} 50.0001%{opacity:1} 74.999%{opacity:1} 75%{opacity:0} 100%{opacity:0}
-    }
-    @keyframes cycle-node {
-      0%{opacity:0} 75%{opacity:0} 75.0001%{opacity:1} 100%{opacity:1}
-    }
-  `;
-  document.head.appendChild(style);
-})();
-
-/* ======================
-   Restore modal behaviour for User/Admin links
-   ====================== */
-(() => {
+(function initModal(){
   const modal = document.getElementById('accessModal');
   const input = document.getElementById('accessInput');
   const msg = document.getElementById('accessMsg');
   const submit = document.getElementById('accessSubmit');
   const closeBtn = document.getElementById('accessClose');
 
+  let lastFocused = null;
+
+  function openModal(which){
+    lastFocused = document.activeElement;
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden','false');
+    modal.dataset.which = which;
+    input.value = '';
+    msg.textContent = '';
+    document.body.style.overflow = 'hidden'; // prevent page scroll
+    // focus trap start: focus input
+    input.focus();
+  }
+
+  function closeModal(){
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    if(lastFocused) lastFocused.focus();
+  }
+
   // open modal when rc-link clicked
   document.querySelectorAll('.rc-link').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden','false');
-      modal.dataset.which = link.dataset.which;
-      input.value = '';
-      msg.textContent = '';
-      input.focus();
+      openModal(link.dataset.which);
     });
   });
 
   // close actions
-  closeBtn.addEventListener('click', () => { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); });
-  modal.addEventListener('click', e => { if (e.target === modal) { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } });
+  closeBtn.addEventListener('click', () => { closeModal(); });
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 
-  // simple code checking: same as your original codes
+  // submit action - checks codes and redirects
   submit.addEventListener('click', () => {
     const code = input.value.trim();
     if (code === 'AC25TX' && modal.dataset.which === 'user') {
       msg.style.color = '#0f0';
       msg.textContent = 'Access granted!';
-      setTimeout(() => { window.location.href = 'user.html'; }, 700);
+      setTimeout(() => { closeModal(); window.location.href = 'user.html'; }, 700);
     } else if (code === 'RCS2025DEVACCESS' && modal.dataset.which === 'admin') {
       msg.style.color = '#0f0';
       msg.textContent = 'Admin access granted!';
-      setTimeout(() => { window.location.href = 'admin.html'; }, 700);
+      setTimeout(() => { closeModal(); window.location.href = 'admin.html'; }, 700);
     } else {
       msg.style.color = '#ff0032';
       msg.textContent = 'Access Denied';
@@ -372,10 +356,19 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
     }
   });
 
-  // keyboard accessibility: Esc to close
+  // keyboard behaviour: Esc to close; trap tab inside modal
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (modal.style.display === 'flex') { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); }
+    if (modal.style.display === 'flex') {
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key === 'Tab') {
+        // keep focus inside modal (basic trap)
+        const focusable = modal.querySelectorAll('button, input, [tabindex]:not([tabindex="-1"])');
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     }
   });
 })();
@@ -390,13 +383,14 @@ document.querySelectorAll('.panel').forEach(panel=>{
       panel.classList.toggle('flipped');
     }
   });
+  // make clickable by keyboard: allow Enter/Space on panel container (role=button)
+  panel.addEventListener('click', ()=> panel.classList.toggle('flipped'));
 });
 
 /* ======================
-   Optional: ensure tech cards fit cleanly (no horizontal jump) after images load
+   Small reflow guard for tech cards after load
    ====================== */
 window.addEventListener('load', () => {
-  // force reflow if needed
   const cont = document.getElementById('techContainer');
   if (cont) cont.style.willChange = 'transform';
   setTimeout(()=>{ if (cont) cont.style.willChange = 'auto'; }, 500);
