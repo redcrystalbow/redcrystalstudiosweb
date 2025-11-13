@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Be Alvion</title>
+  <title>Alvion</title>
   <link rel="icon" type="image/png" href="img/RCS LOG.png">
   <style>
 :root{
@@ -78,19 +78,20 @@ nav a.btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px
   .menu-toggle { display:block; }
   nav { display:none; flex-direction:column; gap:10px; width:100%; margin-top:10px; padding:10px 0; background: rgba(10,10,20,0.95); border-top:1px solid var(--glass-border); }
   nav.active { display:flex; animation: slideDown 0.3s ease; }
-  @keyframes slideDown { from {opacity:0; transform:translateY(-10px);} to {opacity:1; transform:translateY(0);} }
   .dropdown-content { display:none; }
   .dropdown-content.show { display:flex; flex-direction:column; }
+  @keyframes slideDown { from {opacity:0; transform:translateY(-10px);} to {opacity:1; transform:translateY(0);} }
 }
 
 /* main content */
-main{padding:64px 8vw;max-width:960px;margin:0 auto;}
-section h2{font-size:2rem;color:var(--accent);margin-bottom:12px;}
-section p{font-size:1rem;line-height:1.6;color:var(--muted);}
-audio{width:100%;margin-top:12px;border-radius:8px}
-
-/* kicker/intro styles */
+main{padding:64px 8vw;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:40px;}
 .kicker {display:inline-block;padding:6px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,45,85,0.12), rgba(124,92,255,0.08));color:var(--accent);font-weight:700;font-size:12px;margin-bottom:12px;}
+
+/* King panel */
+.king-panel{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;box-shadow:var(--card-shadow);padding:24px;max-width:400px;margin:auto;text-align:center;}
+.king-panel h2{color:var(--accent);margin-bottom:12px;}
+.king-panel audio{width:100%;margin-bottom:12px;border-radius:8px;}
+.king-panel p{font-size:14px;color:var(--muted);margin:4px 0;}
   </style>
 </head>
 <body>
@@ -99,7 +100,7 @@ audio{width:100%;margin-top:12px;border-radius:8px}
   <!-- HEADER -->
   <header>
     <div class="brand">
-      <h1>Be Alvion</h1>
+      <h1>Alvion</h1>
       <span class="kicker">Indie Game & Web Studio</span>
     </div>
     <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
@@ -108,7 +109,7 @@ audio{width:100%;margin-top:12px;border-radius:8px}
         <a class="btn" href="#">Projects ▾</a>
         <div class="dropdown-content">
           <a href="toh.html">Tale Of Heroes</a>
-          <a href="alvion.html">Be Alvion</a>
+          <a href="alvion.html">Alvion</a>
         </div>
       </div>
       <a class="btn" href="contactg.html">Contact / Socials</a>
@@ -117,17 +118,16 @@ audio{width:100%;margin-top:12px;border-radius:8px}
 
   <!-- MAIN -->
   <main>
-    <section class="intro">
-      <span class="kicker">Audio Intro</span>
+    <!-- King of Alvion Panel -->
+    <section class="king-panel">
+      <h2>The King of Alvion</h2>
       <audio controls autoplay>
-        <source src="assets/audio/Old King.wav" type="audio/wav">
+        <source src="audio_files/Old King.wav" type="audio/wav">
         Your browser does not support the audio element.
       </audio>
-    </section>
-
-    <section class="king-profile">
-      <h2>The King</h2>
-      <p>A bold man who can be kind but harsh at the same time. He rules Alvion wisely, alongside his Queen and their daughter, Lady Lillian.</p>
+      <p><strong>VA:</strong> Logan Howlett</p>
+      <p><strong>Discord:</strong> @Howlettx23</p>
+      <p><strong>Email:</strong> howlettx23official@gmail.com</p>
     </section>
   </main>
 
