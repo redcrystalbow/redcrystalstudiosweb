@@ -66,12 +66,15 @@ main{padding:64px 8vw;max-width:960px;margin:0 auto;display:flex;flex-direction:
 .kicker {display:inline-block;padding:6px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,45,85,0.12), rgba(124,92,255,0.08));color:var(--accent);font-weight:700;font-size:12px;margin-bottom:12px;}
 
 /* panels */
-.panel {background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;box-shadow:var(--card-shadow);padding:16px;text-align:center;}
+.panels-container { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
+.panel {background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;box-shadow:var(--card-shadow);padding:16px;text-align:center;flex:1; min-width:280px; max-width:480px;}
 .panel h2{color:var(--accent);margin-bottom:12px;font-size:1.2rem;}
-.panel img, .panel audio{width:100%;border-radius:8px;margin-bottom:8px;}
+.panel img {width:100%;border-radius:8px;margin-bottom:8px;}
+.audio-panel audio {width:100%;margin-bottom:12px;}
 
-/* smaller panels */
-.panel.small {max-width:400px;margin:0 auto;}
+/* image grid */
+.img-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:12px; }
+.img-grid img { width:100%; border-radius:8px; }
   </style>
 </head>
 <body>
@@ -98,26 +101,30 @@ main{padding:64px 8vw;max-width:960px;margin:0 auto;display:flex;flex-direction:
 
   <!-- MAIN -->
   <main>
-    <!-- Images Panel -->
-    <section class="panel small">
-      <h2>Game Images</h2>
-      <img src="img/textboxa.gif" alt="Intro Animation">
-      <img src="img/Zeus.png" alt="Zeus">
-      <img src="img/zeusb.png" alt="Zeus Background">
-    </section>
+    <div class="panels-container">
+      <!-- Images Panel -->
+      <section class="panel img-panel">
+        <h2>Game Images</h2>
+        <div class="img-grid">
+          <img src="img/textboxa.gif" alt="Intro Animation">
+          <img src="img/Zeus.png" alt="Zeus">
+          <img src="img/zeusb.png" alt="Zeus Background">
+        </div>
+      </section>
 
-    <!-- Audio Panel -->
-    <section class="panel small">
-      <h2>Audio Tracks</h2>
-      <audio controls autoplay>
-        <source src="audio_files/Intro_Cutscene.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-      <audio controls>
-        <source src="audio_files/Greek_Mystery_Temple.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </section>
+      <!-- Audio Panel -->
+      <section class="panel audio-panel">
+        <h2>Audio Tracks</h2>
+        <audio controls autoplay>
+          <source src="audio_files/Intro_Cutscene.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+        <audio controls>
+          <source src="audio_files/Greek_Mystery_Temple.wav" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </section>
+    </div>
   </main>
 
   <script>
