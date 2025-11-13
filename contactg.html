@@ -4,8 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact - RedCrystal_Studios</title>
-  <style>
 
+  <!-- ✅ Favicon (for all devices) -->
+  <link rel="icon" type="image/png" href="img/RCS LOG.png">
+  <link rel="apple-touch-icon" href="img/RCS LOG.png">
+  <meta name="theme-color" content="#ff0032" />
+
+  <style>
 /* ===== Base Styles ===== */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -33,10 +38,15 @@ header img {
   height: 60px;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 nav a {
   color: white;
   text-decoration: none;
-  margin: 0 15px;
   font-weight: bold;
   transition: color 0.3s;
 }
@@ -44,6 +54,16 @@ nav a {
 nav a:hover,
 nav a.active {
   color: #ff0032;
+}
+
+/* ===== Mobile Menu Toggle ===== */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #ff0032;
+  font-size: 32px;
+  cursor: pointer;
 }
 
 /* ===== Contact Section ===== */
@@ -113,18 +133,73 @@ footer {
   background: rgba(255, 0, 50, 0.1);
   color: #aaa;
   font-size: 0.9em;
+  margin-top: 40px;
 }
 
-</style>
+/* ===== Responsive Design ===== */
+@media (max-width: 800px) {
+  header {
+    flex-wrap: wrap;
+    padding: 15px 25px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 15px 0;
+    background: rgba(15, 15, 15, 0.95);
+    border-top: 1px solid rgba(255, 0, 50, 0.2);
+    animation: slideDown 0.3s ease;
+  }
+
+  nav.active {
+    display: flex;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  nav a {
+    margin: 10px 0;
+    font-size: 1.1em;
+  }
+
+  .contact-section h1 {
+    font-size: 2em;
+  }
+
+  .contact-section .intro {
+    font-size: 1em;
+  }
+
+  .contact-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 320px;
+  }
+}
+  </style>
 </head>
 <body>
   <header>
-    <img src="img/RCS LOG.png" alt="RedCrystal_Studios Company Logo" />
+    <img src="img/RCS LOG.png" alt="RedCrystal_Studios Logo" />
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
     <nav>
       <a href="index.html">Home</a>
       <a href="workg.html">Projects</a>
       <a class="active" href="contactg.html">Contact/Socials</a>
-
     </nav>
   </header>
 
@@ -164,5 +239,14 @@ footer {
   <footer>
     <p>&copy; 2025 RedCrystal_Studios. All Rights Reserved.</p>
   </footer>
+
+  <script>
+  // Toggle mobile nav
+  const menuButton = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('nav');
+  menuButton.addEventListener('click', () => {
+    nav.classList.toggle('active');
+  });
+  </script>
 </body>
 </html>
