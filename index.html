@@ -44,9 +44,66 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 @media(max-width:700px){.logo-wrapper{width:84px;height:84px}.brand h1{font-size:16px}}
 
 /* nav buttons */
-nav{display:flex;gap:14px;align-items:center;transition:all .3s ease}
+nav{display:flex;gap:14px;align-items:center}
 .btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);cursor:pointer;font-weight:600}
 .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0}
+
+/* mobile menu */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 28px;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  header {
+    flex-wrap: wrap;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(20, 20, 30, 0.95);
+    border-top: 1px solid var(--glass-border);
+    margin-top: 10px;
+    padding: 10px 0;
+  }
+  nav.active {
+    display: flex;
+    animation: slideDown 0.3s ease;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .btn {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+  }
+  .brand h1 {
+    font-size: 14px;
+  }
+  .logo-wrapper {
+    width: 72px;
+    height: 72px;
+  }
+  .kicker {
+    font-size: 10px;
+  }
+  h2 {
+    font-size: 28px;
+  }
+  .lead {
+    font-size: 14px;
+  }
+}
 
 /* hero */
 .hero{display:grid;grid-template-columns:1fr 440px;gap:40px;align-items:center;padding:64px 8vw}
@@ -85,78 +142,8 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
   .section-title{font-size:1.8rem}
 }
 
-/* modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;animation:fadeIn .25s ease;z-index:50}
-.modal{background:rgba(30,30,30,.98);border:2px solid rgba(255,0,50,.35);border-radius:12px;padding:28px 26px;text-align:center;box-shadow:0 0 30px rgba(0,0,0,.6);width:360px;max-width:92%}
-.modal h2{margin:0 0 8px;font-size:1.1rem}
-.modal input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);margin-top:10px;background:#0b0b0b;color:#fff}
-.modal .modal-actions{display:flex;gap:8px;justify-content:center;margin-top:12px}
-.modal button{padding:10px 14px;border-radius:8px;border:0;background:linear-gradient(90deg,#ff0032,#ff3366);color:#fff;cursor:pointer}
-.modal button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff}
-
 /* footer */
 footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;justify-content:center;align-items:center;border-top:1px solid var(--glass-border)}
-.shake{animation:shake .35s}
-@keyframes shake{10%{transform:translateX(-5px)}30%{transform:translateX(5px)}50%{transform:translateX(-3px)}70%{transform:translateX(3px)}100%{transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-/* --- Responsive header & toggle --- */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--accent);
-  font-size: 28px;
-  cursor: pointer;
-}
-
-@media (max-width: 700px) {
-  header {
-    flex-wrap: wrap;
-  }
-  .menu-toggle {
-    display: block;
-  }
-  nav {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    gap: 10px;
-    background: rgba(20,20,30,0.95);
-    border-top: 1px solid var(--glass-border);
-    margin-top: 10px;
-    padding: 10px 0;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-  }
-  nav.active {
-    display: flex;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .btn {
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-  }
-  .brand h1 {
-    font-size: 14px;
-  }
-  .logo-wrapper {
-    width: 72px;
-    height: 72px;
-  }
-  .kicker {
-    font-size: 10px;
-  }
-  h2 {
-    font-size: 28px;
-  }
-  .lead {
-    font-size: 14px;
-  }
-}
   </style>
 </head>
 <body>
@@ -221,87 +208,23 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
     </div>
   </section>
 
-  <!-- ACCESS MODAL -->
-  <div id="accessModal" class="modal-overlay" aria-hidden="true">
-    <div class="modal">
-      <h2>🔒 Secure Access Portal</h2>
-      <p>Enter access code:</p>
-      <input id="accessInput" type="password" placeholder="Enter code...">
-      <div class="modal-actions">
-        <button id="accessSubmit">Access</button>
-        <button id="accessClose" class="secondary">Close</button>
-      </div>
-      <p id="accessMsg" style="margin-top:8px;"></p>
-    </div>
-  </div>
-
   <footer>
-    <div>
-      <a href="#" class="rc-link" data-which="user">User Panel</a> |
-      <a href="#" class="rc-link" data-which="admin">Admin Panel</a>
-    </div>
     <p>© 2025 RedCrystal_Studios — All rights reserved.</p>
   </footer>
 
   <script>
-(function initModal(){
-  const modal=document.getElementById('accessModal');
-  const input=document.getElementById('accessInput');
-  const msg=document.getElementById('accessMsg');
-  const submit=document.getElementById('accessSubmit');
-  const closeBtn=document.getElementById('accessClose');
-  let lastFocused=null;
+  // Toggle mobile menu
+  document.querySelector('.menu-toggle').addEventListener('click', () => {
+    document.querySelector('nav').classList.toggle('active');
+  });
 
-  function openModal(which){
-    lastFocused=document.activeElement;
-    modal.style.display='flex';
-    modal.dataset.which=which;
-    input.value=''; msg.textContent='';
-    document.body.style.overflow='hidden';
-    input.focus();
-  }
-  function closeModal(){
-    modal.style.display='none';
-    document.body.style.overflow='';
-    if(lastFocused) lastFocused.focus();
-  }
-
-  document.querySelectorAll('.rc-link').forEach(link=>{
-    link.addEventListener('click',e=>{
-      e.preventDefault();
-      openModal(link.dataset.which);
+  // Flip cards
+  document.querySelectorAll('.panel').forEach(panel=>{
+    panel.addEventListener('click',()=>panel.classList.toggle('flipped'));
+    panel.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();panel.classList.toggle('flipped');}
     });
   });
-  closeBtn.addEventListener('click',closeModal);
-  modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
-
-  submit.addEventListener('click',()=>{
-    const code=input.value.trim();
-    if(code==='AC25TX'&&modal.dataset.which==='user'){
-      msg.style.color='#0f0'; msg.textContent='Access granted!';
-      setTimeout(()=>{closeModal();window.location.href='user.html';},700);
-    }else if(code==='RCS2025DEVACCESS'&&modal.dataset.which==='admin'){
-      msg.style.color='#0f0'; msg.textContent='Admin access granted!';
-      setTimeout(()=>{closeModal();window.location.href='admin.html';},700);
-    }else{
-      msg.style.color='#ff0032'; msg.textContent='Access Denied';
-      input.classList.add('shake'); setTimeout(()=>input.classList.remove('shake'),400);
-    }
-  });
-})();
-
-// Flip panels
-document.querySelectorAll('.panel').forEach(panel=>{
-  panel.addEventListener('click',()=>panel.classList.toggle('flipped'));
-  panel.addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();panel.classList.toggle('flipped');}
-  });
-});
-
-// Toggle mobile menu
-document.querySelector('.menu-toggle').addEventListener('click',()=>{
-  document.querySelector('nav').classList.toggle('active');
-});
   </script>
 </body>
 </html>
