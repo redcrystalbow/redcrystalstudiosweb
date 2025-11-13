@@ -36,12 +36,13 @@ img{max-width:100%;height:auto;display:block}
   filter:blur(40px);z-index:-4;transform:rotate(10deg)}
 
 /* header layout */
-header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;position:relative;z-index:2}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;position:relative;z-index:2;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:14px;position:relative}
 .logo-wrapper{position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center;}
 .logo{width:100%;height:auto;display:block;position:relative;border-radius:14px;}
 .brand h1{font-size:20px;letter-spacing:0.6px;margin:0;text-shadow:0 0 12px rgba(255,45,85,0.45)}
-@media(max-width:700px){.logo-wrapper{width:84px;height:84px}.brand h1{font-size:16px}}
+.brand .kicker{font-size:12px;color:var(--accent);display:block;margin-top:2px}
+@media(max-width:700px){.logo-wrapper{width:84px;height:84px}.brand h1{font-size:16px}.brand .kicker{font-size:10px}}
 
 /* nav buttons */
 nav{display:flex;gap:14px;align-items:center}
@@ -58,9 +59,6 @@ nav{display:flex;gap:14px;align-items:center}
   cursor: pointer;
 }
 @media (max-width: 700px) {
-  header {
-    flex-wrap: wrap;
-  }
   .menu-toggle {
     display: block;
   }
@@ -82,27 +80,39 @@ nav{display:flex;gap:14px;align-items:center}
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  .btn {
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-  }
-  .brand h1 {
-    font-size: 14px;
-  }
-  .logo-wrapper {
-    width: 72px;
-    height: 72px;
-  }
-  .kicker {
-    font-size: 10px;
-  }
-  h2 {
-    font-size: 28px;
-  }
-  .lead {
-    font-size: 14px;
-  }
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: rgba(20, 20, 30, 0.95);
+  border: 1px solid var(--glass-border);
+  min-width: 180px;
+  z-index: 10;
+  flex-direction: column;
+  border-radius: 8px;
+}
+.dropdown-content a {
+  padding: 10px 16px;
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+.dropdown-content a:hover {
+  background: rgba(124, 92, 255, 0.1);
+}
+@media (min-width:701px) {
+  .dropdown:hover .dropdown-content { display: flex; }
+}
+@media(max-width:700px){
+  #projectsDropdown { display: none; flex-direction: column; padding-left:10px; }
+  #projectsDropdown.show { display:flex; }
 }
 
 /* hero */
@@ -128,20 +138,6 @@ h2{font-size:46px;line-height:1.02;margin:18px 0}
 .panel-back{background:rgba(15,15,25,0.92);transform:rotateY(180deg);padding:24px;font-size:14px;text-align:left;line-height:1.5;overflow-y:auto}
 .panel-back h2{color:var(--accent);font-size:1.2rem;margin-bottom:8px}
 
-/* glow by tech */
-.html-panel img{filter:drop-shadow(0 0 10px #f16529)}
-.css-panel img{filter:drop-shadow(0 0 10px #2965f1)}
-.java-panel img{filter:drop-shadow(0 0 10px #f89820)}
-.node-panel img{filter:drop-shadow(0 0 10px #68a063)}
-
-/* responsive */
-@media (max-width:900px){
-  .scroll-container{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:20px;overflow-x:visible;padding-bottom:0;justify-items:center;}
-  .panel{min-width:auto;width:100%;max-width:320px}
-  .tech-stack{padding:40px 6vw}
-  .section-title{font-size:1.8rem}
-}
-
 /* footer */
 footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;justify-content:center;align-items:center;border-top:1px solid var(--glass-border)}
   </style>
@@ -155,12 +151,26 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
       <div class="logo-wrapper">
         <img src="img/RCS LOG.png" alt="RedCrystal_Studios Logo" class="logo" />
       </div>
-      <div><h1>RedCrystal_Studios</h1></div>
+      <div>
+        <h1>RedCrystal_Studios</h1>
+        <span class="kicker">Indie Game & Web Studio</span>
+      </div>
     </div>
+
     <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+
     <nav>
-      <a class="btn" href="workg.html">Projects</a>
-      <a class="btn" href="contactg.html">Contact/Socials</a>
+      <!-- Dropdown for Projects -->
+      <div class="dropdown">
+        <a class="btn" href="#" id="projectsBtn">Projects ▾</a>
+        <div class="dropdown-content" id="projectsDropdown">
+          <a href="workg.html">Tale of Heroes</a>
+          <a href="toh.html">Temple of Heaven</a>
+          <a href="alvion.html">King of Alvion</a>
+        </div>
+      </div>
+      <!-- Contact / Socials -->
+      <a class="btn" href="contactg.html">Contact / Socials</a>
     </nav>
   </header>
 
@@ -213,12 +223,21 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
   </footer>
 
   <script>
-  // Toggle mobile menu
+  // Toggle mobile main menu
   document.querySelector('.menu-toggle').addEventListener('click', () => {
     document.querySelector('nav').classList.toggle('active');
   });
 
-  // Flip cards
+  // Toggle mobile Projects dropdown
+  const projectsBtn = document.getElementById('projectsBtn');
+  const projectsDropdown = document.getElementById('projectsDropdown');
+
+  projectsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    projectsDropdown.classList.toggle('show');
+  });
+
+  // Flip tech panels
   document.querySelectorAll('.panel').forEach(panel=>{
     panel.addEventListener('click',()=>panel.classList.toggle('flipped'));
     panel.addEventListener('keydown',e=>{
