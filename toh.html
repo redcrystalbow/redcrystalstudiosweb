@@ -62,13 +62,16 @@ nav a.btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px
 }
 
 /* main content */
-main{padding:64px 8vw;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:40px;}
+main{padding:64px 8vw;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
 .kicker {display:inline-block;padding:6px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,45,85,0.12), rgba(124,92,255,0.08));color:var(--accent);font-weight:700;font-size:12px;margin-bottom:12px;}
 
 /* panels */
-.panel {background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;box-shadow:var(--card-shadow);padding:24px;text-align:center;}
-.panel h2{color:var(--accent);margin-bottom:12px;}
-.panel audio, .panel img{width:100%;border-radius:8px;margin-bottom:12px;}
+.panel {background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;box-shadow:var(--card-shadow);padding:16px;text-align:center;}
+.panel h2{color:var(--accent);margin-bottom:12px;font-size:1.2rem;}
+.panel img, .panel audio{width:100%;border-radius:8px;margin-bottom:8px;}
+
+/* smaller panels */
+.panel.small {max-width:400px;margin:0 auto;}
   </style>
 </head>
 <body>
@@ -95,26 +98,21 @@ main{padding:64px 8vw;max-width:960px;margin:0 auto;display:flex;flex-direction:
 
   <!-- MAIN -->
   <main>
-    <!-- Intro Animation Panel -->
-    <section class="panel">
-      <h2>Intro Cutscene</h2>
+    <!-- Images Panel -->
+    <section class="panel small">
+      <h2>Game Images</h2>
       <img src="img/textboxa.gif" alt="Intro Animation">
-      <audio controls autoplay>
-        <source src="audio_files/Intro_Cutscene.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </section>
-
-    <!-- Zeus Image Panel -->
-    <section class="panel">
-      <h2>Zeus</h2>
       <img src="img/Zeus.png" alt="Zeus">
       <img src="img/zeusb.png" alt="Zeus Background">
     </section>
 
-    <!-- Zeus Audio Panel -->
-    <section class="panel">
-      <h2>Greek Mystery Temple</h2>
+    <!-- Audio Panel -->
+    <section class="panel small">
+      <h2>Audio Tracks</h2>
+      <audio controls autoplay>
+        <source src="audio_files/Intro_Cutscene.wav" type="audio/wav">
+        Your browser does not support the audio element.
+      </audio>
       <audio controls>
         <source src="audio_files/Greek_Mystery_Temple.wav" type="audio/wav">
         Your browser does not support the audio element.
