@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RedCrystal Studios</title>
   <meta name="description" content="RedCrystal_Studios — Indie studio building bold video games and slick websites." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff2d55'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="img/RCS LOG.png">
 
   <style>
 :root{
@@ -44,7 +44,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 @media(max-width:700px){.logo-wrapper{width:84px;height:84px}.brand h1{font-size:16px}}
 
 /* nav buttons */
-nav{display:flex;gap:14px;align-items:center}
+nav{display:flex;gap:14px;align-items:center;transition:all .3s ease}
 .btn{padding:10px 16px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);cursor:pointer;font-weight:600}
 .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 30px rgba(124,92,255,0.14);color:white;border:0}
 
@@ -99,6 +99,64 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
 .shake{animation:shake .35s}
 @keyframes shake{10%{transform:translateX(-5px)}30%{transform:translateX(5px)}50%{transform:translateX(-3px)}70%{transform:translateX(3px)}100%{transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* --- Responsive header & toggle --- */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 28px;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  header {
+    flex-wrap: wrap;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(20,20,30,0.95);
+    border-top: 1px solid var(--glass-border);
+    margin-top: 10px;
+    padding: 10px 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+  nav.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .btn {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+  }
+  .brand h1 {
+    font-size: 14px;
+  }
+  .logo-wrapper {
+    width: 72px;
+    height: 72px;
+  }
+  .kicker {
+    font-size: 10px;
+  }
+  h2 {
+    font-size: 28px;
+  }
+  .lead {
+    font-size: 14px;
+  }
+}
   </style>
 </head>
 <body>
@@ -112,6 +170,7 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
       </div>
       <div><h1>RedCrystal_Studios</h1></div>
     </div>
+    <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
     <nav>
       <a class="btn" href="workg.html">Projects</a>
       <a class="btn" href="contactg.html">Contact/Socials</a>
@@ -231,11 +290,17 @@ footer{padding:22px 8vw;color:var(--muted);font-size:14px;display:flex;flex-dire
   });
 })();
 
+// Flip panels
 document.querySelectorAll('.panel').forEach(panel=>{
   panel.addEventListener('click',()=>panel.classList.toggle('flipped'));
   panel.addEventListener('keydown',e=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();panel.classList.toggle('flipped');}
   });
+});
+
+// Toggle mobile menu
+document.querySelector('.menu-toggle').addEventListener('click',()=>{
+  document.querySelector('nav').classList.toggle('active');
 });
   </script>
 </body>
