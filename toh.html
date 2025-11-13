@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temple of Heaven</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!--
+    Project: Temple of Heaven (TOH) Mobile Site
+    Description: 
+    This is a mobile-optimized webpage for the "Temple of Heaven" project. 
+    It features an intro animation, multiple background audio tracks, 
+    and images of key characters (Zeus) and elements from the TOH storyline. 
+    The page uses a dropdown navigation menu and consistent CSS styling 
+    to match the rest of the mobile site design.
+    
+    Assets Used:
+    - Images: tohlogo.png, textboxa.gif, Zeus.png, zeusb.png
+    - Audio: Intro_Cutscene.wav, Greek_Mystery_Temple.wav
+
+    Folder Structure:
+    /assets
+        /images
+        /audio
+    -->
+</head>
+<body>
+    <header>
+        <img src="assets/images/tohlogo.png" alt="TOH Logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="#" class="dropdown">Menu
+                    <ul class="dropdown-content">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Gallery</a></li>
+                    </ul>
+                </a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <img src="assets/images/textboxa.gif" alt="Intro Animation">
+            <audio controls autoplay>
+                <source src="assets/audio/Intro_Cutscene.wav" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </section>
+
+        <section class="temple">
+            <img src="assets/images/Zeus.png" alt="Zeus">
+            <audio controls>
+                <source src="assets/audio/Greek_Mystery_Temple.wav" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </section>
+    </main>
+</body>
+</html>
